@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcoSphere Login</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="shortcut icon" href="./logoblk.jpg">
+</head>
+<style>
+    *{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+display:flex;
+flex-direction:column;
+min-height:100vh;
+background:linear-gradient(135deg,#16a34a,#22c55e);
+padding-top:80px;
+}
+
+/* HEADER */
+.header{
+position:fixed;
+top:0;
+width:100%;
+padding: 5px;
+background:rgba(18,186,17,0.95);
+z-index:1000;
+}
+
+.nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+max-width:1200px;
+margin:auto;
+padding:1rem 2rem;
+}
+
+.logo h1{color:white;}
+.logo i{color:#ffd700;}
+
+.nav-links{
+display:flex;
+gap:2rem;
+list-style:none;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: #ffd700;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .nav-links a.active{
+color:#ffd700;
+}
+.nav-links a:hover{
+color:#ffd700;
+}
+ .nav-links a.active::after{
+            width:100%;
+            background: #ffd700;
+        }
+
+
+/* FORM */
+.form-box{
+display:flex;
+justify-content:center; 
+align-items:center;
+flex:1;
+}
+
+.login-box{
+background:white;
+padding:45px 50px;
+border-radius:12px;
+width:100%;
+max-width:380px;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+margin:100px auto 40px;
+position:relative;
+}
+
+.login-box h2{
+color:#16a34a;
+margin-bottom:15px;
+}
+
+/* INPUT WITH ICON */
+.input-box {
+position: relative;
+margin: 15px 0;
+}
+
+.input-box i {
+position: absolute;
+left: 12px;
+top: 50%;
+transform: translateY(-50%);
+color: #16a34a;
+font-size: 16px;
+}
+
+.input-box input {
+width: 100%;
+padding: 12px 12px 12px 40px;
+border: 1px solid #ccc;
+border-radius: 8px;
+}
+
+/* BUTTON */
+.login-btn{
+width:100%;
+padding:12px;
+margin-top:20px;
+background:linear-gradient(45deg,#28a745,#20c997);
+border:none;
+color:white;
+border-radius:8px;
+cursor:pointer;
+}
+
+.login-btn:hover{
+background:linear-gradient(45deg,#20c997,#28a745);
+
+}
+
+/* EXTRA LINKS */
+.extra{
+margin-top:15px;
+display:flex;
+justify-content:space-between;
+font-size:13px;
+}
+
+.extra a{
+color:#16a34a;
+text-decoration:none;
+}
+
+/* CLOSE BUTTON */
+.close-btn{
+position:absolute;
+top:10px;
+right:10px;
+background:#065f46;
+color:white;
+border:none;
+border-radius:8px;
+padding:5px 10px;
+cursor:pointer;
+}
+
+.close-btn a{
+text-decoration:none;
+color:#fff;
+}
+
+.close-btn:hover{
+    background: #16a34a;
+}
+
+/* FOOTER */
+.footer{
+margin-top:auto;
+margin-top:100px;
+}
+
+.footer-bottom{
+text-align:center;
+padding-top:2rem;
+margin-top:2rem;
+border-top:1px solid #333;
+color:#999;
+background:#1a1a1a;
+}
+
+.footer-bottom p{
+margin:0;
+padding:20px 0;
+}
+</style>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+<nav class="nav">
+<div class="logo">
+<h1><i class="fas fa-leaf"></i> EcoSphere</h1>
+</div>
+
+<ul class="nav-links">
+<li><a href="./index.html">Home</a></li>
+<li><a href="./about.html">About</a></li>
+<li><a href="./contact.html">Contact</a></li>
+<li><a href="./login.html" class="active">Login</a></li>
+</ul>
+</nav>
+</header>
+
+<!-- LOGIN FORM -->
+<form class="form-box">
+<div class="login-box">
+
+<button type="button" class="close-btn">
+<a href="./index.html">✕</a>
+</button>
+
+<i class="fas fa-leaf" style="color:#ffd700;font-size:28px;"></i>
+<h2>EcoSphere Login</h2>
+
+<div class="input-box">
+<i class="fa-solid fa-user"></i>
+<input type="text" id="username" placeholder="Username">
+</div>
+
+<div class="input-box">
+<i class="fa-solid fa-lock"></i>
+<input type="password" id="password" placeholder="Password">
+</div>
+
+<!-- FIX HERE -->
+<button type="button" class="login-btn" onclick="login(event)">Login</button>
+
+<div class="extra">
+<a href="./Forgot_pass.html">Forgot Password?</a>
+<a href="./register.html">Create Account</a>
+</div>
+
+</div>
+</form>
+
+<!-- FOOTER -->
+<footer class="footer">
+<div class="footer-bottom">
+<p>© 2026 EcoSphere. All rights reserved. | Making sustainability profitable.</p>
+</div>
+</footer>
+
+<script>
+function login(event) {
+
+    event.preventDefault();
+
+    let user = document.getElementById("username").value.trim();
+    let pass = document.getElementById("password").value.trim();
+
+    if (user === "seller" && pass === "1234") {
+        localStorage.setItem("login","true");
+        window.location.href = "seller.html";
+    } 
+    else if (user === "admin" && pass === "12345") {
+        localStorage.setItem("login","true");
+        window.location.href = "admin.html";
+    } 
+    else if (user === "recycler" && pass === "123456") {
+        localStorage.setItem("login","true");
+        window.location.href = "recycler.html";
+    } 
+    else {
+        alert("Invalid Login Credentials\n\nDemo Login:\nUsername: seller\nPassword: 1234");
+    }
+}
+
+function adminLogin(){
+alert("Invalid Login Credentials\n\nDemo Login:\nUsername: admin\nPassword: 12345");
+}
+
+function recyclerLogin(){
+alert("Invalid Login Credentials\n\nDemo Login:\nUsername: recycler\nPassword: 123456");
+}
+</script>
+
+</body>
+</html>

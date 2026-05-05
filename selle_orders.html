@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Orders</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<style>
+  *{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#f4f6f8;
+display:flex;
+flex-direction:column;
+min-height:100vh;
+}
+
+/* HEADER */
+.header{
+position:fixed;
+top:0;
+width:100%;
+height:80px;
+background:#12ba11;
+z-index:1000;
+}
+
+.nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+max-width:1200px;
+margin:auto;
+padding:1rem 2rem;
+}
+
+.logo h1{
+color:white;
+}
+
+.logo i{
+color:#ffd700;
+}
+
+.profile-mini{
+font-size:25px;
+}
+
+.profile-mini i{
+color:#fff;
+}
+
+/* DASHBOARD */
+.dashboard{
+margin-top:80px;
+display:flex;
+flex:1;
+}
+
+/* SIDEBAR */
+.sidebar{
+width:220px;
+background:#1e293b;
+color:white;
+padding-top:20px;
+height: 100vh;
+}
+
+.admin-logo{
+display:flex;
+align-items:center;
+gap:10px;
+padding:20px;
+font-size:20px;
+font-weight:bold;
+color:#ffd700;
+border-bottom:1px solid #334155;
+}
+
+.sidebar a{
+display:block;
+padding:12px 20px;
+color:white;
+text-decoration:none;
+cursor:pointer;
+transition:0.3s;
+}
+
+.sidebar a i{
+margin-right:10px;
+}
+
+.sidebar a:hover, .sidebar a.active{
+background:#334155;
+padding-left:25px;
+}
+
+/* MAIN */
+.main{
+flex:1;
+padding:20px;
+}
+
+/* CARDS */
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:15px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:12px;
+text-align:center;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.card h1{
+color:#16a34a;
+}
+.main #canvas{
+max-width:50%;
+font-size: -200px;
+}
+.graph-box{
+  background:white;
+  padding:15px;
+  margin-top:15px;
+  border-radius:10px;
+  max-width:350px;
+}
+.main{
+flex:1;
+padding:30px;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+
+/* .card:hover{
+transform:translateY(-5px);
+} */
+
+
+/* ================= TABLE ================= */
+.table-container{
+margin-top:-460px;
+margin-left: 600px;
+background:white;
+height: 62vh;
+border-radius:15px;
+overflow:hidden;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:15px;
+border-bottom:1px solid #eee;
+text-align:left;
+}
+
+/* TABLE */
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+th,td{
+padding:12px 0;
+text-align:center;
+}
+
+th{
+background:#1a1a1a;
+color:white;
+}
+
+tr:hover{
+background:#f3f4f6;
+}
+
+/* BUTTON */
+button{
+background:#22c55e;
+color:white;
+border:none;
+padding:8px 14px;
+border-radius:6px;
+cursor:pointer;
+transition:.3s;
+}
+
+button:hover{
+background:#15803d;
+}
+
+/* FORM */
+input{
+width:100%;
+padding:10px;
+margin:8px 0;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+/* BOX */
+.box{
+background:white;
+padding:20px;
+border-radius:12px;
+max-width:500px;
+margin:auto;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+/* FOOTER */
+.footer-bottom{
+text-align:center;
+padding:20px;
+margin-top: -60px;
+background:#1a1a1a;
+color:#aaa;
+}
+</style>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+<nav class="nav">
+<div class="logo">
+<h1><i class="fas fa-leaf"></i> EcoSphere</h1>
+</div>
+
+<div class="profile-mini">
+<a href="./seller_profile.html"><i class="fas fa-user-circle"></i></a>
+</div>
+</nav>
+</header>
+
+<!-- DASHBOARD -->
+<div class="dashboard">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+<div class="admin-logo">
+<i class="fas fa-store"></i>
+<span>Seller Panel</span>
+</div>
+<a href="./seller.html" ><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+<a href="./selle_orders.html" class="active"><i class="fas fa-shopping-cart"></i> Orders</a>
+<a href="./selle_items.html"><i class="fas fa-box-open"></i> List Items</a>
+<a href="./index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+<!-- <a href="#"><i class="fas fa-cog"></i> Settings</a> -->
+
+</aside>
+
+<div class="main">
+<!-- <h2>Order US</h2> -->
+<table id="ordersTable">
+
+<thead>
+<tr>
+<th>Order ID</th>
+<th>Buyer</th>
+<th>Product</th>
+<th>Quantity</th>
+<th>Total</th>
+<th>Status</th>
+<th>Date</th>
+<!-- <th>Action</th> -->
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>#ORD1021</td>
+<td>Priya Singh</td>
+<td>Plastic Bottles</td>
+<td>50 kg</td>
+<td>₹600</td>
+
+<td>
+<select class="status-select" onchange="changeStatus(this)">
+<option value="delivered">Delivered</option>
+<option value="pending">Pending</option>
+<option value="cancelled">Cancelled</option>
+</select>
+</td>
+
+<td>20 Jan 2026</td>
+
+<td>
+<!-- <button class="btn view" onclick="viewOrder(this)">View</button> -->
+</td>
+</tr>
+
+<tr>
+<td>#ORD1022</td>
+<td>Ravi Sharma</td>
+<td>Old Newspapers</td>
+<td>30 kg</td>
+<td>₹240</td>
+
+<td>
+<select class="status-select" onchange="changeStatus(this)">
+<option value="pending">Pending</option>
+<option value="delivered">Delivered</option>
+<option value="cancelled">Cancelled</option>
+</select>
+</td>
+
+<td>21 Jan 2026</td>
+
+<td>
+<!-- <button class="btn view" onclick="viewOrder(this)">View</button> -->
+</td>
+</tr>
+
+
+<tr>
+<td>#ORD1021</td>
+<td>Priya Singh</td>
+<td>Plastic Bottles</td>
+<td>50 kg</td>
+<td>₹600</td>
+
+<td>
+<select class="status-select" onchange="changeStatus(this)">
+<option value="delivered">Delivered</option>
+<option value="pending">Pending</option>
+<option value="cancelled">Cancelled</option>
+</select>
+</td>
+
+<td>20 Jan 2026</td>
+
+<td>
+<!-- <button class="btn view" onclick="viewOrder(this)">View</button> -->
+</td>
+</tr>
+
+
+<tr>
+<td>#ORD1021</td>
+<td>Priya Singh</td>
+<td>Plastic Bottles</td>
+<td>50 kg</td>
+<td>₹600</td>
+
+<td>
+<select class="status-select" onchange="changeStatus(this)">
+<option value="pending">Pending</option>
+<option value="delivered">Delivered</option>
+<option value="cancelled">Cancelled</option>
+</select>
+</td>
+
+<td>20 Jan 2026</td>
+
+<td>
+<!-- <button class="btn view" onclick="viewOrder(this)">View</button> -->
+</td>
+</tr>
+
+
+<tr>
+<td>#ORD1021</td>
+<td>Priya Singh</td>
+<td>Plastic Bottles</td>
+<td>50 kg</td>
+<td>₹600</td>
+
+<td>
+<select class="status-select" onchange="changeStatus(this)">
+<option value="delivered">Delivered</option>
+<option value="pending">Pending</option>
+<option value="cancelled">Cancelled</option>
+</select>
+</td>
+
+<td>20 Jan 2026</td>
+
+<td>
+<!-- <button class="btn view" onclick="viewOrder(this)">View</button> -->
+</td>
+</tr>
+
+
+<tr>
+<td>#ORD1021</td>
+<td>Priya Singh</td>
+<td>Plastic Bottles</td>
+<td>50 kg</td>
+<td>₹600</td>
+
+<td>
+<select class="status-select" onchange="changeStatus(this)">
+<option value="pending">Pending</option>
+<option value="delivered">Delivered</option>
+<option value="cancelled">Cancelled</option>
+</select>
+</td>
+
+<td>20 Jan 2026</td>
+
+<td>
+<!-- <button class="btn view" onclick="viewOrder(this)">View</button> -->
+</td>
+</tr>
+
+</tbody>
+</table>
+
+</div>
+</div>
+
+<footer class="footer-bottom">
+<p>© 2026 EcoSphere. All rights reserved.</p>
+</footer>
+
+<!-- <script>
+// Sample order data (replace with actual data from your backend)
+const orders = [
+  { id: 1, product: "Recyclable Plastic", buyer: "John Doe", status: "Pending" },
+  { id: 2, product: "Used Paper", buyer: "Jane Smith", status: "Shipped" },
+  { id: 3, product: "Glass Bottles", buyer: "Bob Johnson", status: "Delivered" }
+];
+
+// Function to display orders
+function displayOrders() {
+  const ordersContainer = document.getElementById("orders");
+  ordersContainer.innerHTML = "";
+
+  orders.forEach(order => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${order.id}</td>
+      <td>${order.product}</td>
+      <td>${order.buyer}</td>
+      <td>${order.status}</td>
+    `;
+    ordersContainer.appendChild(row);
+  });
+}
+
+// Call the function when the page loads
+window.onload = displayOrders;
+</script> -->
+</body>
+<script>
+    let orders=[
+{id:1,product:"Plastic",buyer:"Shiva",status:"Pending"},
+{id:2,product:"Metal",buyer:"Ravi",status:"Completed"}
+];
+
+let items=[
+{name:"Plastic Scrap",seller:"You",qty:"20kg"},
+{name:"Iron Scrap",seller:"You",qty:"50kg"}
+];
+
+function loadDashboard(){
+if(document.getElementById("total")){
+total.innerText=orders.length;
+pending.innerText=orders.filter(o=>o.status=="Pending").length;
+completed.innerText=orders.filter(o=>o.status=="Completed").length;
+
+new Chart(document.getElementById("chart"),{
+type:"doughnut",
+data:{
+labels:["Pending","Completed"],
+datasets:[{
+data:[
+orders.filter(o=>o.status=="Pending").length,
+orders.filter(o=>o.status=="Completed").length
+]
+}]
+}
+});
+}
+}
+
+function loadOrders(){
+let el=document.getElementById("orders");
+if(!el) return;
+
+el.innerHTML=orders.map(o=>`
+<tr>
+<td>${o.id}</td>
+<td>${o.product}</td>
+<td>${o.buyer}</td>
+<td>${o.status}</td>
+</tr>`).join("");
+}
+
+function loadItems(){
+let el=document.getElementById("items");
+if(!el) return;
+
+el.innerHTML=items.map(i=>`
+<tr>
+<td>${i.name}</td>
+<td>${i.seller}</td>
+<td>${i.qty}</td>
+</tr>`).join("");
+}
+
+function addItem(){
+let name=prompt("Enter item name");
+let qty=prompt("Enter quantity");
+
+items.push({name,seller:"You",qty});
+loadItems();
+}
+
+loadDashboard();
+loadOrders();
+loadItems();
+</script>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payments Dashboard</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Segoe UI, sans-serif;
+    background:#f4f7fa;
+}
+
+/* HEADER */
+.header{
+position:fixed;
+top:0;
+width:100%;
+height:80px;
+background:#12ba11;
+z-index:1000;
+}
+
+.nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+height:100%;
+max-width:1200px;
+margin:auto;
+padding:0 20px;
+}
+
+.logo h1{color:white;}
+.logo i{color:#ffd700;}
+.profile-mini i{font-size:26px;color:#fff;}
+
+/* DASHBOARD */
+.dashboard{
+margin-top:80px;
+display:flex;
+}
+
+/* SIDEBAR */
+.sidebar{
+width:220px;
+background:#1e293b;
+color:white;
+padding-top:20px;
+min-height:calc(100vh - 80px);
+}
+
+.admin-logo{
+display:flex;
+align-items:center;
+gap:10px;
+padding:20px;
+font-size:20px;
+font-weight:bold;
+color:#ffd700;
+border-bottom:1px solid #334155;
+}
+
+.sidebar a{
+display:block;
+padding:12px 20px;
+color:white;
+text-decoration:none;
+transition:0.3s;
+}
+
+.sidebar a i{margin-right:10px;}
+
+.sidebar a:hover,
+.sidebar a.active{
+background:#334155;
+padding-left:25px;
+}
+
+/* MAIN */
+.main{
+flex:1;
+padding:20px;
+}
+
+/* ✅ HEADER WITH LOGO */
+.payment-header{
+display:flex;
+align-items:center;
+gap:12px;
+background:white;
+padding:15px;
+border-radius:8px;
+margin-bottom:20px;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.payment-icon{
+font-size:28px;
+color:#12ba11;
+}
+
+/* CARDS */
+.cards{
+display:flex;
+gap:20px;
+flex-wrap:wrap;
+margin-bottom:20px;
+}
+
+.card{
+flex:1;
+min-width:200px;
+background:white;
+padding:20px;
+border-radius:8px;
+text-align:center;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* FILTER */
+select{
+padding:8px 12px;
+margin-bottom:15px;
+border-radius:5px;
+}
+
+/* TABLE */
+.table-container{
+overflow-x:auto;
+background:white;
+padding:10px;
+border-radius:8px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:12px;
+border:1px solid #ddd;
+text-align:center;
+}
+
+th{
+background:#1e293b;
+color:white;
+}
+
+.paid{color:green;font-weight:bold;}
+.unpaid{color:red;font-weight:bold;}
+
+/* FOOTER */
+.footer-bottom{
+text-align:center;
+padding:15px;
+background:#1a1a1a;
+color:#aaa;
+/* margin-top:20px; */
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+.sidebar{width:180px;}
+}
+
+@media(max-width:600px){
+.sidebar{display:none;}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+<nav class="nav">
+<div class="logo">
+<h1><i class="fas fa-leaf"></i> EcoSphere</h1>
+</div>
+
+<div class="profile-mini">
+<a href="./recycler_profile.html"><i class="fas fa-user-circle"></i></a>
+</div>
+</nav>
+</header>
+
+<!-- DASHBOARD -->
+<div class="dashboard">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+<div class="admin-logo">
+<i class="fas fa-recycle"></i>
+<span>Recycler Panel</span>
+</div>
+
+<a href="./recycler.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+<a href="./recycler_orders.html"><i class="fas fa-shopping-cart"></i> Orders</a>
+<a href="./recycler_payments.html" class="active"><i class="fas fa-wallet"></i> Payments</a>
+<a href="./index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+
+<!-- PAYMENT HEADER WITH LOGO -->
+<div class="payment-header">
+<i class="fas fa-credit-card payment-icon"></i>
+<h2>Payments Dashboard</h2>
+</div>
+
+<!-- CARDS -->
+<div class="cards">
+<div class="card"><h3>Total Earnings</h3><p id="totalEarnings">₹0</p></div>
+<div class="card"><h3>Total Paid</h3><p id="totalPaid">₹0</p></div>
+<div class="card"><h3>Pending</h3><p id="totalPending">₹0</p></div>
+</div>
+
+<!-- FILTER -->
+<select onchange="filterPayments()" id="paymentFilter">
+<option value="all">All</option>
+<option value="Paid">Paid</option>
+<option value="Unpaid">Unpaid</option>
+</select>
+
+<!-- TABLE -->
+<div class="table-container">
+<table id="paymentTable">
+
+<tr>
+<th>Order ID</th>
+<th>Seller</th>
+<th>Amount</th>
+<th>Date</th>
+<th>Status</th>
+</tr>
+
+<tr><td>#101</td><td>Sita</td><td class="amount">450</td><td>10 Feb</td><td class="paid">Paid</td></tr>
+<tr><td>#102</td><td>Ravi</td><td class="amount">500</td><td>-</td><td class="unpaid">Unpaid</td></tr>
+<tr><td>#103</td><td>Mahesh</td><td class="amount">270</td><td>15 Feb</td><td class="paid">Paid</td></tr>
+<tr><td>#104</td><td>Priya</td><td class="amount">400</td><td>-</td><td class="unpaid">Unpaid</td></tr>
+<tr><td>#105</td><td>Anil</td><td class="amount">350</td><td>18 Feb</td><td class="paid">Paid</td></tr>
+<tr><td>#106</td><td>Kiran</td><td class="amount">600</td><td>-</td><td class="unpaid">Unpaid</td></tr>
+
+</table>
+</div>
+
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer-bottom">
+<p>© 2026 EcoSphere. All rights reserved.</p>
+</footer>
+
+<script>
+
+/* CALCULATE TOTALS */
+window.onload = function(){
+let rows = document.querySelectorAll("#paymentTable tr");
+let total=0, paid=0, unpaid=0;
+
+for(let i=1;i<rows.length;i++){
+let amount=parseInt(rows[i].querySelector(".amount").innerText);
+let status=rows[i].cells[4].innerText;
+
+total += amount;
+if(status==="Paid"){ paid += amount; }
+else{ unpaid += amount; }
+}
+
+document.getElementById("totalEarnings").innerText="₹"+total;
+document.getElementById("totalPaid").innerText="₹"+paid;
+document.getElementById("totalPending").innerText="₹"+unpaid;
+}
+
+/* FILTER */
+function filterPayments(){
+let filter=document.getElementById("paymentFilter").value;
+let rows=document.querySelectorAll("#paymentTable tr");
+
+for(let i=1;i<rows.length;i++){
+let status=rows[i].cells[4].innerText;
+rows[i].style.display=(filter==="all" || status===filter)?"":"none";
+}
+}
+
+</script>
+
+</body>
+</html>

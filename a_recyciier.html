@@ -1,0 +1,401 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcoSphere - Recycler Dashboard</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+/* ===== GLOBAL ===== */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#f4f6f8;
+}
+
+/* ===== HEADER ===== */
+.header{
+position:fixed;
+top:0;
+width:100%;
+height:80px;
+background:#12ba11;
+z-index:1000;
+box-shadow:0 2px 5px rgba(0,0,0,0.2);
+}
+
+.nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+max-width:1200px;
+margin:auto;
+padding:1rem 2rem;
+}
+
+.logo h1{
+color:white;
+}
+
+.logo i{
+color:#ffd700;
+}
+
+.profile-mini i{
+color:#fff;
+font-size:26px;
+}
+
+/* ===== DASHBOARD LAYOUT (FIXED) ===== */
+.dashboard{
+display:flex;
+margin-top:58px;
+align-items:flex-start;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+width:220px;
+height: 177vh;
+background:#1e293b;
+color:white;
+padding-top:20px;
+}
+
+/* ADMIN LOGO */
+.admin-logo{
+display:flex;
+align-items:center;
+gap:10px;
+padding:20px;
+font-size:20px;
+font-weight:bold;
+color:#ffd700;
+border-bottom:1px solid #334155;
+}
+
+.sidebar a{
+display:block;
+padding:12px 20px;
+color:white;
+text-decoration:none;
+cursor:pointer;
+transition:0.3s;
+}
+
+.sidebar a i{
+margin-right:10px;
+}
+
+.sidebar a:hover, .sidebar a.active{
+background:#334155;
+padding-left:25px;
+}
+
+/* ===== MAIN ===== */
+.main-content{
+flex:1;
+padding:30px;
+}
+
+/* ===== TITLE ===== */
+.page-title{
+display:flex;
+align-items:center;
+gap:12px;
+font-size:26px;
+font-weight:bold;
+color:#1a1a1a;
+margin-bottom:20px;
+}
+
+.page-title i{
+color:#12ba11;
+background:#e8f5ec;
+padding:10px;
+border-radius:10px;
+}
+
+/* ===== CARD ===== */
+.card{
+background:white;
+padding:20px;
+border-radius:12px;
+margin-bottom:20px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* ===== ICONS ===== */
+h2 i, h3 i{
+margin-right:8px;
+color:#12ba11;
+}
+
+li i{
+margin-right:10px;
+color:#2e7d32;
+}
+
+button i{
+margin-right:5px;
+}
+
+/* ===== BUTTON ===== */
+button{
+background:#4CAF50;
+color:white;
+border:none;
+padding:10px 15px;
+border-radius:6px;
+cursor:pointer;
+}
+
+button:hover{
+background:#388e3c;
+}
+
+/* ===== INPUT ===== */
+input{
+width:100%;
+padding:8px;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+/* ===== LIST ===== */
+ul{
+list-style:none;
+}
+
+li{
+background:#e8f5e9;
+margin:10px 0;
+padding:15px;
+border-radius:6px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+/* ===== DELETE BUTTON ===== */
+.delete-btn{
+background:red;
+padding:5px 10px;
+border-radius:5px;
+font-size:12px;
+}
+
+/* ===== MODAL ===== */
+#modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+}
+
+.modal-content{
+background:white;
+width:300px;
+margin:15% auto;
+padding:20px;
+border-radius:10px;
+position:relative;
+}
+
+.close-btn{
+position:absolute;
+top:10px;
+right:10px;
+background:red;
+color:white;
+border:none;
+padding:5px 8px;
+cursor:pointer;
+border-radius:4px;
+}
+
+/* ===== FOOTER ===== */
+.footer{
+background:#1a1a1a;
+color:white;
+padding:2rem;
+text-align:center;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+<nav class="nav">
+<div class="logo">
+<h1><i class="fas fa-leaf"></i> EcoSphere</h1>
+</div>
+
+<div class="profile-mini">
+    <a href="./admin_profile.html"><i class="fas fa-user-circle"></i></a>
+</div>
+</nav>
+</header>
+
+<!-- DASHBOARD -->
+<div class="dashboard">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+<div class="admin-logo">
+<i class="fas fa-user-shield"></i>
+<span>Admin Panel</span>
+</div>
+
+<a href="./admin.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+<a href="./a_users.html"><i class="fas fa-users"></i> Users</a>
+<a href="./a_recyciier.html" class="active"><i class="fas fa-recycle"></i> Recycler</a>
+<a href="./a_products.html"><i class="fas fa-box"></i> Products</a>
+<a href="./a_users.html"><i class="fas fa-shopping-cart"></i> Orders</a>
+<a href="./index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+</aside>
+
+<!-- MAIN -->
+<div class="main-content">
+
+<h1 class="page-title">
+<i class="fas fa-recycle"></i> Recycler Management
+</h1>
+
+<!-- MATERIALS -->
+<div class="card">
+<h2><i class="fas fa-recycle"></i> Accepting Materials</h2>
+
+<ul>
+<li><span><i class="fas fa-bottle-water"></i> Plastic Bottles</span></li>
+<li><span><i class="fas fa-wine-bottle"></i> Glass Containers</span></li>
+<li><span><i class="fas fa-beer"></i> Aluminum Cans</span></li>
+</ul>
+
+<h3><i class="fas fa-map-marker-alt"></i> Drop-off</h3>
+<p>Monday to Saturday, 9 AM to 5 PM. Bring items to the main gate.</p>
+
+<h3><i class="fas fa-address-book"></i> Contact</h3>
+<p><i class="fas fa-envelope"></i> info@ecosphere.com</p>
+<p><i class="fas fa-phone"></i> +91 9876543210</p>
+</div>
+
+<!-- SCRAP LIST -->
+<div class="card">
+<h2><i class="fas fa-box-open"></i> Available Scrap</h2>
+
+<ul id="scrapList">
+<li><span><i class="fas fa-recycle"></i> Plastic Waste - 10kg</span> <button class="delete-btn" onclick="deleteItem(this)">Delete</button></li>
+<li><span><i class="fas fa-newspaper"></i> Newspapers - 5kg</span> <button class="delete-btn" onclick="deleteItem(this)">Delete</button></li>
+<li><span><i class="fas fa-industry"></i> Metal Scrap - 8kg</span> <button class="delete-btn" onclick="deleteItem(this)">Delete</button></li>
+</ul>
+
+<button onclick="openModal()">
+<i class="fas fa-plus-circle"></i> Add Scrap
+</button>
+</div>
+
+<!-- ANALYTICS -->
+<div class="card">
+<h2><i class="fas fa-chart-pie"></i> Recycler Insights</h2>
+<p>Total Scrap: <strong id="total">23 kg</strong></p>
+<p>Listings: <strong id="count">3</strong></p>
+</div>
+
+</div>
+</div>
+
+<!-- MODAL -->
+<div id="modal">
+<div class="modal-content">
+<button class="close-btn" onclick="closeModal()">X</button>
+
+<h3>Add Scrap</h3>
+
+<label>Material</label><br>
+<input type="text" id="material"><br><br>
+
+<label>Quantity</label><br>
+<input type="number" id="qty"><br><br>
+
+<button onclick="addScrap()">Submit</button>
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+<p>© 2026 EcoSphere | Recycler Dashboard</p>
+</footer>
+
+<script>
+
+function openModal(){
+document.getElementById("modal").style.display="block";
+}
+
+function closeModal(){
+document.getElementById("modal").style.display="none";
+}
+
+function addScrap(){
+let material=document.getElementById("material").value;
+let qty=document.getElementById("qty").value;
+
+if(material && qty){
+
+let li=document.createElement("li");
+li.innerHTML = `<span><i class="fas fa-recycle"></i> ${material} - ${qty}kg</span>
+<button class="delete-btn" onclick="deleteItem(this)">Delete</button>`;
+
+document.getElementById("scrapList").appendChild(li);
+
+document.getElementById("count").innerText++;
+document.getElementById("total").innerText =
+(parseInt(document.getElementById("total").innerText)+parseInt(qty))+" kg";
+
+alert("Scrap Added Successfully!");
+closeModal();
+
+}else{
+alert("Fill all fields");
+}
+}
+
+function deleteItem(btn){
+let li = btn.parentElement;
+let qty = li.innerText.match(/(\d+)/)[0];
+
+li.remove();
+
+document.getElementById("count").innerText--;
+document.getElementById("total").innerText =
+(parseInt(document.getElementById("total").innerText)-parseInt(qty))+" kg";
+}
+
+window.onclick=function(e){
+if(e.target == document.getElementById("modal")){
+closeModal();
+}
+}
+
+</script>
+
+</body>
+</html>
+```

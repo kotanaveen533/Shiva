@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recycler Dashboard</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+/* RESET */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Segoe UI, sans-serif;
+    background:#f4f7fa;
+}
+
+/* HEADER */
+.header{
+position:fixed;
+top:0;
+width:100%;
+height:80px;
+background:#12ba11;
+z-index:1000;
+}
+
+.nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+height:100%;
+max-width:1200px;
+margin:auto;
+padding:0 20px;
+}
+
+.logo h1{
+color:white;
+}
+
+.logo i{
+color:#ffd700;
+}
+
+.profile-mini i{
+font-size:26px;
+color:#fff;
+}
+
+/* DASHBOARD LAYOUT */
+.dashboard{
+margin-top:80px;
+display:flex;
+}
+
+/* SIDEBAR */
+.sidebar{
+width:220px;
+background:#1e293b;
+color:white;
+padding-top:20px;
+min-height:calc(100vh - 80px);
+}
+
+.admin-logo{
+display:flex;
+align-items:center;
+gap:10px;
+padding:20px;
+font-size:20px;
+font-weight:bold;
+color:#ffd700;
+border-bottom:1px solid #334155;
+}
+
+.sidebar a{
+display:block;
+padding:12px 20px;
+color:white;
+text-decoration:none;
+transition:0.3s;
+}
+
+.sidebar a i{
+margin-right:10px;
+}
+
+.sidebar a:hover,
+.sidebar a.active{
+background:#334155;
+padding-left:25px;
+}
+
+/* MAIN */
+.main{
+flex:1;
+padding:20px;
+}
+
+/* WELCOME BOX WITH LOGO */
+.dashboard-header{
+background:white;
+padding:20px;
+border-radius:10px;
+margin-bottom:20px;
+display:flex;
+align-items:center;
+gap:15px;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.welcome-icon{
+font-size:40px;
+color:#12ba11;
+}
+
+/* CARDS */
+.cards{
+display:flex;
+gap:20px;
+flex-wrap:wrap;
+margin-bottom:20px;
+}
+
+.card{
+flex:1;
+min-width:220px;
+background:white;
+padding:20px;
+border-radius:8px;
+text-align:center;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.card i{
+font-size:24px;
+color:#12ba11;
+margin-bottom:10px;
+}
+
+.card p{
+font-size:22px;
+font-weight:bold;
+color:#2e8b57;
+}
+
+/* CHARTS */
+.charts-container{
+display:flex;
+gap:20px;
+flex-wrap:wrap;
+}
+
+.chart-wrapper{
+flex:1;
+min-width:300px;
+background:white;
+padding:15px;
+border-radius:8px;
+}
+
+/* FOOTER */
+.footer-bottom{
+text-align:center;
+padding:15px;
+background:#1a1a1a;
+color:#aaa;
+/* margin-top:20px; */
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+.sidebar{
+width:180px;
+}
+
+}
+
+@media(max-width:600px){
+.sidebar{
+display:none;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+<nav class="nav">
+<div class="logo">
+<h1><i class="fas fa-leaf"></i> EcoSphere</h1>
+</div>
+
+<div class="profile-mini">
+<a href="./recycler_profile.html"><i class="fas fa-user-circle"></i></a>
+</div>
+</nav>
+</header>
+
+<!-- DASHBOARD -->
+<div class="dashboard">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+<div class="admin-logo">
+<i class="fas fa-recycle"></i>
+<span>Recycler Panel</span>
+</div>
+
+<a href="./recycler.html" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+<a href="./recycler_orders.html"><i class="fas fa-shopping-cart"></i> Orders</a>
+<a href="./recycler_payments.html"><i class="fas fa-wallet"></i> Payments</a>
+<a href="./index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+
+<!-- ✅ WELCOME WITH LOGO -->
+<div class="dashboard-header">
+<i class="fas fa-hand-sparkles welcome-icon"></i>
+<h1 id="welcomeText">Welcome 👋</h1>
+</div>
+
+<div class="cards">
+<div class="card">
+<i class="fas fa-box"></i>
+<h3>Total Requests</h3>
+<p>24</p>
+</div>
+
+<div class="card">
+<i class="fas fa-check-circle"></i>
+<h3>Accepted Orders</h3>
+<p>12</p>
+</div>
+
+<div class="card">
+<i class="fas fa-rupee-sign"></i>
+<h3>Total Earnings</h3>
+<p>₹ 8,500</p>
+</div>
+</div>
+
+<div class="charts-container">
+<div class="chart-wrapper">
+<canvas id="requestsChart"></canvas>
+</div>
+
+<div class="chart-wrapper">
+<canvas id="earningsChart"></canvas>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer-bottom">
+<p>© 2026 EcoSphere. All rights reserved.</p>
+</footer>
+
+<script>
+
+/* USER NAME */
+window.addEventListener("DOMContentLoaded",()=>{
+let name = localStorage.getItem("username");
+
+if(!name){
+    name = prompt("Enter your name:");
+    if(name){
+        localStorage.setItem("username", name);
+    }
+}
+
+if(name){
+    document.getElementById("welcomeText").innerText =
+    "Welcome, " + name + " 👋";
+}
+});
+
+/* CHARTS */
+new Chart(document.getElementById("requestsChart"),{
+type:"bar",
+data:{
+labels:["Pending","Accepted","Completed"],
+datasets:[{
+label:"Requests",
+data:[10,12,5],
+backgroundColor:["green","orange","blue"]
+}]
+}
+});
+
+new Chart(document.getElementById("earningsChart"),{
+type:"pie",
+data:{
+labels:["Earnings","Requests"],
+datasets:[{
+data:[8500,24],
+backgroundColor:["green","orange"]
+}]
+}
+});
+
+</script>
+
+</body>
+</html>

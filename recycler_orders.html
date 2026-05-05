@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EcoSphere - Orders</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Segoe UI, sans-serif;
+    background:#f4f7fa;
+}
+
+/* HEADER */
+.header{
+position:fixed;
+top:0;
+width:100%;
+height:80px;
+background:#12ba11;
+z-index:1000;
+}
+
+.nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+height:100%;
+max-width:1200px;
+margin:auto;
+padding:0 20px;
+}
+
+.logo h1{
+color:white;
+}
+
+.logo i{
+color:#ffd700;
+}
+
+.profile-mini i{
+font-size:26px;
+color:#fff;
+}
+
+/* DASHBOARD */
+.dashboard{
+margin-top:80px;
+display:flex;
+}
+
+/* SIDEBAR */
+.sidebar{
+width:220px;
+background:#1e293b;
+color:white;
+padding-top:20px;
+min-height:calc(100vh - 80px);
+}
+
+.admin-logo{
+display:flex;
+align-items:center;
+gap:10px;
+padding:20px;
+font-size:20px;
+font-weight:bold;
+color:#ffd700;
+border-bottom:1px solid #334155;
+}
+
+.sidebar a{
+display:block;
+padding:12px 20px;
+color:white;
+text-decoration:none;
+transition:0.3s;
+}
+
+.sidebar a i{
+margin-right:10px;
+}
+
+.sidebar a:hover,
+.sidebar a.active{
+background:#334155;
+padding-left:25px;
+}
+
+/* MAIN */
+.main-content{
+flex:1;
+padding:20px;
+}
+
+/* ORDER HEADER WITH LOGO */
+.order-header{
+display:flex;
+align-items:center;
+gap:12px;
+margin-bottom:15px;
+background:white;
+padding:15px;
+border-radius:8px;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.order-icon{
+font-size:28px;
+color:#12ba11;
+}
+
+/* TABLE */
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+th,td{
+padding:10px;
+border:1px solid #ddd;
+text-align:center;
+font-size:14px;
+}
+
+th{
+background:#1e293b;
+color:white;
+}
+
+tr:hover{
+background:#f1f5f9;
+}
+
+/* STATUS COLORS */
+.completed{color:green;font-weight:bold;}
+.pending{color:orange;font-weight:bold;}
+.cancelled{color:red;font-weight:bold;}
+.paid{color:green;font-weight:bold;}
+.unpaid{color:red;font-weight:bold;}
+
+/* FOOTER */
+.footer-bottom{
+text-align:center;
+padding:15px;
+background:#1a1a1a;
+color:#aaa;
+/* margin-top:20px; */
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+.sidebar{
+width:180px;
+}
+}
+
+@media(max-width:600px){
+.sidebar{
+display:none;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+<nav class="nav">
+<div class="logo">
+<h1><i class="fas fa-leaf"></i> EcoSphere</h1>
+</div>
+
+<div class="profile-mini">
+<a href="./recycler_profile.html"><i class="fas fa-user-circle"></i></a>
+</div>
+</nav>
+</header>
+
+<!-- DASHBOARD -->
+<div class="dashboard">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+<div class="admin-logo">
+<i class="fas fa-recycle"></i>
+<span>Recycler Panel</span>
+</div>
+
+<a href="./recycler.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+<a href="./recycler_orders.html" class="active"><i class="fas fa-shopping-cart"></i> Orders</a>
+<a href="./recycler_payments.html"><i class="fas fa-wallet"></i> Payments</a>
+<a href="./index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+
+</aside>
+
+<!-- MAIN -->
+<div class="main-content">
+
+<!-- ✅ HEADER WITH LOGO -->
+<div class="order-header">
+<i class="fas fa-clipboard-check order-icon"></i>
+<h2>Accepted Orders - Detailed View</h2>
+</div>
+
+<table>
+<thead>
+<tr>
+<th>Order ID</th>
+<th>Seller Name</th>
+<th>Phone</th>
+<th>Waste Type</th>
+<th>Qty (kg)</th>
+<th>Price/kg</th>
+<th>Total</th>
+<th>Pickup Date</th>
+<th>Pickup Time</th>
+<th>Address</th>
+<th>Status</th>
+<th>Payment</th>
+</tr>
+</thead>
+
+<tbody id="orderTable"></tbody>
+</table>
+
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer-bottom">
+<p>© 2026 EcoSphere. All rights reserved.</p>
+</footer>
+
+<script>
+
+/* DATA */
+const orders = [
+{ id:101,name:"Sita",phone:"9876543210",type:"Metal",qty:15,price:30,date:"10 Feb 2026",time:"10:00 AM",addr:"Hyderabad",status:"completed",pay:"paid" },
+{ id:102,name:"Ravi",phone:"9123456780",type:"Plastic",qty:25,price:20,date:"12 Feb 2026",time:"2:00 PM",addr:"Warangal",status:"completed",pay:"paid" },
+{ id:103,name:"Mahesh",phone:"9012345678",type:"Glass",qty:18,price:15,date:"15 Feb 2026",time:"11:30 AM",addr:"Karimnagar",status:"pending",pay:"unpaid" },
+{ id:104,name:"Priya",phone:"9988776655",type:"E-Waste",qty:8,price:50,date:"18 Feb 2026",time:"4:00 PM",addr:"Nizamabad",status:"cancelled",pay:"unpaid" },
+{ id:105,name:"Kiran",phone:"9090909090",type:"Iron Scrap",qty:30,price:28,date:"20 Feb 2026",time:"9:00 AM",addr:"Hyderabad",status:"completed",pay:"paid" }
+];
+
+/* LOAD TABLE */
+function loadOrders(){
+let html="";
+orders.forEach(o=>{
+html+=`<tr>
+<td>#${o.id}</td>
+<td>${o.name}</td>
+<td>${o.phone}</td>
+<td>${o.type}</td>
+<td>${o.qty}</td>
+<td>₹${o.price}</td>
+<td>₹${o.qty*o.price}</td>
+<td>${o.date}</td>
+<td>${o.time}</td>
+<td>${o.addr}</td>
+<td class="${o.status}">${o.status}</td>
+<td class="${o.pay}">${o.pay}</td>
+</tr>`;
+});
+document.getElementById("orderTable").innerHTML=html;
+}
+
+loadOrders();
+
+</script>
+
+</body>
+</html>

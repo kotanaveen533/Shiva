@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<title>EcoSphere Admin - Users</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+
+/* GLOBAL */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#f4f6f8;
+}
+
+/* HEADER */
+.header{
+position:fixed;
+top:0;
+width:100%;
+height:80px;
+background:#12ba11;
+z-index:1000;
+}
+
+.nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+max-width:1200px;
+margin:auto;
+padding:1rem 2rem;
+}
+
+.logo h1{
+color:white;
+}
+
+.logo i{
+color:#ffd700;
+}
+
+.profile-mini i{
+color:#fff;
+font-size:26px;
+}
+
+/* DASHBOARD */
+.dashboard{
+margin-top:80px;
+display:flex;
+}
+
+/* SIDEBAR */
+.sidebar{
+width:220px;
+height:107vh;
+background:#1e293b;
+color:white;
+padding-top:20px;
+}
+
+.admin-logo{
+display:flex;
+align-items:center;
+gap:10px;
+padding:20px;
+font-size:20px;
+font-weight:bold;
+color:#ffd700;
+border-bottom:1px solid #334155;
+}
+
+.sidebar a{
+display:block;
+padding:12px 20px;
+color:white;
+text-decoration:none;
+transition:0.3s;
+}
+
+.sidebar a i{
+margin-right:10px;
+}
+
+.sidebar a:hover, .sidebar a.active{
+background:#334155;
+padding-left:25px;
+}
+
+/* MAIN */
+.main-content{
+flex:1;
+padding:30px;
+}
+
+.page-title{
+display:flex;
+align-items:center;
+gap:12px;
+font-size:26px;
+font-weight:bold;
+margin-bottom:20px;
+}
+
+.page-title i{
+color:#12ba11;
+background:#e8f5ec;
+padding:10px;
+border-radius:10px;
+}
+
+/* CARD */
+.user-card{
+background:white;
+padding:20px;
+border-radius:12px;
+box-shadow:0 8px 18px rgba(0,0,0,0.1);
+}
+
+/* BUTTON */
+.add-user{
+background:#12ba11;
+color:white;
+padding:10px 15px;
+border:none;
+border-radius:6px;
+margin-bottom:15px;
+cursor:pointer;
+}
+
+/* TABLE */
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:12px;
+border-bottom:1px solid #eee;
+text-align: center;
+}
+
+th{
+background:#e8f5ec;
+}
+
+/* STATUS */
+.active{
+color:green;
+font-weight:bold;
+}
+
+.inactive{
+color:red;
+font-weight:bold;
+}
+
+/* BUTTONS */
+.btn{
+padding:6px 10px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+.view{
+background:#3bb371;
+color:white;
+}
+
+.delete{
+background:#e74c3c;
+color:white;
+}
+
+/* FORM */
+.user-form{
+display:none;
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 10px 30px rgba(0,0,0,0.3);
+width:300px;
+z-index:2000;
+}
+
+.user-form input{
+width:100%;
+padding:10px;
+margin-bottom:10px;
+border:1px solid #ddd;
+border-radius:6px;
+}
+
+/* FOOTER */
+.footer{
+background:#1a1a1a;
+color:white;
+padding:2rem;
+text-align:center;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="header">
+<nav class="nav">
+<div class="logo">
+<h1><i class="fas fa-leaf"></i> EcoSphere</h1>
+</div>
+
+<div class="profile-mini">
+<a href="./admin_profile.html"><i class="fas fa-user-circle"></i></a>
+</div>
+</nav>
+</header>
+
+<!-- DASHBOARD -->
+<div class="dashboard">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+<div class="admin-logo">
+<i class="fas fa-user-shield"></i>
+<span>Admin Panel</span>
+</div>
+<a href="./admin.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+<a href="./a_users.html" class="active"><i class="fas fa-users"></i> Users</a>
+<a href="./a_recyciier.html" ><i class="fas fa-recycle"></i> Recycler</a>
+<a href="./a_products.html"><i class="fas fa-box"></i> Products</a>
+<a href="./a_order.html"><i class="fas fa-shopping-cart"></i> Orders</a>
+<!-- <a href="./admin_profile.html"><i class="fas fa-user-circle"></i> Profile</a> -->
+<a href="./index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+<!-- <a href="#"><i class="fas fa-cog"></i> Settings</a> -->
+</aside>
+
+<!-- MAIN -->
+<main class="main-content">
+
+<h1 class="page-title">
+<i class="fas fa-users"></i> Users Management
+</h1>
+
+<div class="user-card">
+
+<button class="add-user" onclick="openForm()">
+<i class="fas fa-user-plus"></i> Add User
+</button>
+
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Status</th>
+<th>Location</th>
+<th>Bank Name</th>
+<th>Account No</th>
+<th>Date</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="userTable">
+
+<tr>
+<td>Ravi Sharma</td>
+<td>ravi@email.com</td>
+<td class="active">Active</td>
+<td>Hyderabad</td>
+<td>SBI</td>
+<td>XXXXXXXX9032</td>
+<td>05-04-2026</td>
+<td>
+<button class="btn view" onclick="viewUser(this)">View</button>
+<button class="btn delete" onclick="deleteUser(this)">Delete</button>
+</td>
+</tr>
+
+<tr>
+<td>Ravi Sharma</td>
+<td>ravi@email.com</td>
+<td class="active">Active</td>
+<td>Hyderabad</td>
+<td>SBI</td>
+<td>XXXXXXXX9032</td>
+<td>05-04-2026</td>
+<td>
+<button class="btn view" onclick="viewUser(this)">View</button>
+<button class="btn delete" onclick="deleteUser(this)">Delete</button>
+</td>
+</tr>
+
+<tr>
+<td>Ravi Sharma</td>
+<td>ravi@email.com</td>
+<td class="active">Active</td>
+<td>Hyderabad</td>
+<td>SBI</td>
+<td>XXXXXXXX9032</td>
+<td>05-04-2026</td>
+<td>
+<button class="btn view" onclick="viewUser(this)">View</button>
+<button class="btn delete" onclick="deleteUser(this)">Delete</button>
+</td>
+</tr>
+
+<tr>
+<td>Ravi Sharma</td>
+<td>ravi@email.com</td>
+<td class="active">Active</td>
+<td>Hyderabad</td>
+<td>SBI</td>
+<td>XXXXXXXX9032</td>
+<td>05-04-2026</td>
+<td>
+<button class="btn view" onclick="viewUser(this)">View</button>
+<button class="btn delete" onclick="deleteUser(this)">Delete</button>
+</td>
+</tr>
+
+<tr>
+<td>Ravi Sharma</td>
+<td>ravi@email.com</td>
+<td class="active">Active</td>
+<td>Hyderabad</td>
+<td>SBI</td>
+<td>XXXXXXXX9032</td>
+<td>05-04-2026</td>
+<td>
+<button class="btn view" onclick="viewUser(this)">View</button>
+<button class="btn delete" onclick="deleteUser(this)">Delete</button>
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+</main>
+</div>
+
+<!-- FORM -->
+<div class="user-form" id="userForm">
+
+<h3>Add New User</h3>
+
+<input type="text" id="name" placeholder="Full Name">
+<input type="email" id="email" placeholder="Email">
+<input type="text" id="location" placeholder="Location">
+<input type="text" id="bank" placeholder="Bank Name">
+<input type="text" id="account" placeholder="Account Number">
+
+<!-- DATE FIELD -->
+<input type="text" id="date" placeholder="Date" readonly>
+
+<button onclick="addUser()">Add</button>
+<button onclick="closeForm()">Cancel</button>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+<p>© 2026 EcoSphere | Admin Dashboard</p>
+</footer>
+
+<script>
+
+/* OPEN FORM + SET DATE */
+function openForm(){
+document.getElementById("userForm").style.display="block";
+
+let d = new Date();
+let day = String(d.getDate()).padStart(2, '0');
+let month = String(d.getMonth() + 1).padStart(2, '0');
+let year = d.getFullYear();
+
+let currentDate = `${day}-${month}-${year}`;
+
+// show date in form
+document.getElementById("date").value = currentDate;
+}
+
+/* CLOSE FORM */
+function closeForm(){
+document.getElementById("userForm").style.display="none";
+}
+
+/* ADD USER */
+function addUser(){
+
+let name=document.getElementById("name").value;
+let email=document.getElementById("email").value;
+let location=document.getElementById("location").value;
+let bank=document.getElementById("bank").value;
+let account=document.getElementById("account").value;
+let date=document.getElementById("date").value;
+
+if(name==="" || email==="" || location==="" || bank==="" || account===""){
+alert("Please fill all fields!");
+return;
+}
+
+let table=document.getElementById("userTable");
+
+let row=table.insertRow();
+
+row.innerHTML=`
+<td>${name}</td>
+<td>${email}</td>
+<td class="active">Active</td>
+<td>${location}</td>
+<td>${bank}</td>
+<td>${account}</td>
+<td>${date}</td>
+<td>
+<button class="btn view" onclick="viewUser(this)">View</button>
+<button class="btn delete" onclick="deleteUser(this)">Delete</button>
+</td>
+`;
+
+closeForm();
+}
+
+/* DELETE */
+function deleteUser(btn){
+btn.parentNode.parentNode.remove();
+}
+
+/* VIEW */
+function viewUser(btn){
+let data=btn.parentNode.parentNode.children;
+
+alert(
+"Name: "+data[0].innerText+
+"\nEmail: "+data[1].innerText+
+"\nStatus: "+data[2].innerText+
+"\nLocation: "+data[3].innerText+
+"\nBank: "+data[4].innerText+
+"\nAccount No: "+data[5].innerText+
+"\nDate: "+data[6].innerText
+);
+}
+
+</script>
+
+</body>
+</html>
