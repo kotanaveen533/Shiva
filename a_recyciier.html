@@ -1,401 +1,413 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EcoSphere - Recycler Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoSphere - Recycler Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* ===== GLOBAL ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-<style>
+        body {
+            background: #f4f6f8;
+            color: #333;
+            overflow-x: hidden;
+        }
 
-/* ===== GLOBAL ===== */
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Segoe UI',sans-serif;
-}
+        /* ===== HEADER ===== */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 80px;
+            background: #12ba11;
+            z-index: 1100;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
 
-body{
-background:#f4f6f8;
-}
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 2rem;
+        }
 
-/* ===== HEADER ===== */
-.header{
-position:fixed;
-top:0;
-width:100%;
-height:80px;
-background:#12ba11;
-z-index:1000;
-box-shadow:0 2px 5px rgba(0,0,0,0.2);
-}
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-.nav{
-display:flex;
-justify-content:space-between;
-align-items:center;
-max-width:1200px;
-margin:auto;
-padding:1rem 2rem;
-}
+        .logo h1 { color: white; margin: 0; font-size: 24px; }
+        .logo i { color: #ffd700; }
 
-.logo h1{
-color:white;
-}
+        .hamburger {
+            display: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
 
-.logo i{
-color:#ffd700;
-}
+        .profile-mini i {
+            color: #fff;
+            font-size: 26px;
+            transition: 0.3s;
+        }
 
-.profile-mini i{
-color:#fff;
-font-size:26px;
-}
+        .profile-mini i:hover { color: #ffd700; }
 
-/* ===== DASHBOARD LAYOUT (FIXED) ===== */
-.dashboard{
-display:flex;
-margin-top:58px;
-align-items:flex-start;
-}
+        /* ===== DASHBOARD LAYOUT ===== */
+        .dashboard {
+            display: flex;
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
 
-/* ===== SIDEBAR ===== */
-.sidebar{
-width:220px;
-height: 177vh;
-background:#1e293b;
-color:white;
-padding-top:20px;
-}
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 220px;
+            background: #1e293b;
+            color: white;
+            padding-top: 20px;
+            flex-shrink: 0;
+        }
 
-/* ADMIN LOGO */
-.admin-logo{
-display:flex;
-align-items:center;
-gap:10px;
-padding:20px;
-font-size:20px;
-font-weight:bold;
-color:#ffd700;
-border-bottom:1px solid #334155;
-}
+        .admin-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffd700;
+            border-bottom: 1px solid #334155;
+            margin-bottom: 10px;
+        }
 
-.sidebar a{
-display:block;
-padding:12px 20px;
-color:white;
-text-decoration:none;
-cursor:pointer;
-transition:0.3s;
-}
+        .sidebar a {
+            display: block;
+            padding: 12px 20px;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 15px;
+        }
 
-.sidebar a i{
-margin-right:10px;
-}
+        .sidebar a i { margin-right: 10px; width: 20px; }
 
-.sidebar a:hover, .sidebar a.active{
-background:#334155;
-padding-left:25px;
-}
+        .sidebar a:hover, .sidebar a.active {
+            background: #334155;
+            color: white;
+            padding-left: 25px;
+            border-left: 4px solid #12ba11;
+        }
 
-/* ===== MAIN ===== */
-.main-content{
-flex:1;
-padding:30px;
-}
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+        }
 
-/* ===== TITLE ===== */
-.page-title{
-display:flex;
-align-items:center;
-gap:12px;
-font-size:26px;
-font-weight:bold;
-color:#1a1a1a;
-margin-bottom:20px;
-}
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 26px;
+            font-weight: bold;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+        }
 
-.page-title i{
-color:#12ba11;
-background:#e8f5ec;
-padding:10px;
-border-radius:10px;
-}
+        .page-title i {
+            color: #12ba11;
+            background: #e8f5ec;
+            padding: 10px;
+            border-radius: 10px;
+        }
 
-/* ===== CARD ===== */
-.card{
-background:white;
-padding:20px;
-border-radius:12px;
-margin-bottom:20px;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
-}
+        /* ===== CARD ===== */
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
 
-/* ===== ICONS ===== */
-h2 i, h3 i{
-margin-right:8px;
-color:#12ba11;
-}
+        .card h2 { font-size: 20px; margin-bottom: 15px; }
+        h2 i, h3 i { margin-right: 8px; color: #12ba11; }
 
-li i{
-margin-right:10px;
-color:#2e7d32;
-}
+        /* ===== LISTS ===== */
+        ul { list-style: none; }
 
-button i{
-margin-right:5px;
-}
+        li {
+            background: #f8fafc;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #e2e8f0;
+            transition: 0.2s;
+        }
 
-/* ===== BUTTON ===== */
-button{
-background:#4CAF50;
-color:white;
-border:none;
-padding:10px 15px;
-border-radius:6px;
-cursor:pointer;
-}
+        li:hover { 
+            border-color: #12ba11; 
+            background: #e8f5e9;
+        }
 
-button:hover{
-background:#388e3c;
-}
+        li span { font-weight: 500; display: flex; align-items: center; }
+        li span i { margin-right: 12px; color: #12ba11; }
 
-/* ===== INPUT ===== */
-input{
-width:100%;
-padding:8px;
-border:1px solid #ccc;
-border-radius:5px;
-}
+        /* ===== BUTTONS & INPUTS ===== */
+        button {
+            background: #12ba11;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
 
-/* ===== LIST ===== */
-ul{
-list-style:none;
-}
+        button:hover { background: #0f9d0e; transform: translateY(-1px); }
 
-li{
-background:#e8f5e9;
-margin:10px 0;
-padding:15px;
-border-radius:6px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            outline-color: #12ba11;
+        }
 
-/* ===== DELETE BUTTON ===== */
-.delete-btn{
-background:red;
-padding:5px 10px;
-border-radius:5px;
-font-size:12px;
-}
+        .delete-btn {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 8px 12px;
+            font-size: 12px;
+        }
 
-/* ===== MODAL ===== */
-#modal{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.5);
-}
+        .delete-btn:hover { background: #fca5a5; color: white; }
 
-.modal-content{
-background:white;
-width:300px;
-margin:15% auto;
-padding:20px;
-border-radius:10px;
-position:relative;
-}
+        /* ===== MODAL ===== */
+        #modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            backdrop-filter: blur(4px);
+        }
 
-.close-btn{
-position:absolute;
-top:10px;
-right:10px;
-background:red;
-color:white;
-border:none;
-padding:5px 8px;
-cursor:pointer;
-border-radius:4px;
-}
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 350px;
+            margin: 100px auto;
+            padding: 30px;
+            border-radius: 12px;
+            position: relative;
+            box-shadow: 0 20px 25px rgba(0,0,0,0.1);
+        }
 
-/* ===== FOOTER ===== */
-.footer{
-background:#1a1a1a;
-color:white;
-padding:2rem;
-text-align:center;
-}
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #f1f5f9;
+            color: #64748b;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
 
-</style>
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #1e293b;
+            color: #94a3b8;
+            padding: 2rem;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hamburger { display: block; }
+            .sidebar { display: none; } 
+            .nav { padding: 0 1rem; }
+        }
+    </style>
 </head>
-
 <body>
 
-<!-- HEADER -->
-<header class="header">
-<nav class="nav">
-<div class="logo">
-<h1><i class="fas fa-leaf"></i> EcoSphere</h1>
-</div>
+    <!-- HEADER -->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo-container">
+                <div class="hamburger">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="logo">
+                    <h1><i class="fas fa-leaf"></i> EcoSphere</h1>
+                </div>
+            </div>
+            <div class="profile-mini">
+                <a href="#"><i class="fas fa-user-circle"></i></a>
+            </div>
+        </nav>
+    </header>
 
-<div class="profile-mini">
-    <a href="./admin_profile.html"><i class="fas fa-user-circle"></i></a>
-</div>
-</nav>
-</header>
+    <!-- DASHBOARD -->
+    <div class="dashboard">
+        <aside class="sidebar">
+            <div class="admin-logo">
+                <i class="fas fa-user-shield"></i>
+                <span>Admin Panel</span>
+            </div>
+            <a href="./admin.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="./a_users.html"><i class="fas fa-users"></i> Users</a>
+            <a href="./a_recyciier.html" class="active"><i class="fas fa-recycle"></i> Recycler</a>
+            <a href="./a_products.html"><i class="fas fa-box"></i> Products</a>
+            <a href="./a_orders.html"><i class="fas fa-shopping-cart"></i> Orders</a>
+            <a href="./index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </aside>
 
-<!-- DASHBOARD -->
-<div class="dashboard">
+        <main class="main-content">
+            <h1 class="page-title">
+                <i class="fas fa-recycle"></i> Recycler Management
+            </h1>
 
-<!-- SIDEBAR -->
-<aside class="sidebar">
+            <div class="card">
+                <h2><i class="fas fa-bullseye"></i> Accepting Materials</h2>
+                <ul>
+                    <li><span><i class="fas fa-bottle-water"></i> Plastic Bottles</span></li>
+                    <li><span><i class="fas fa-wine-bottle"></i> Glass Containers</span></li>
+                    <li><span><i class="fas fa-beer"></i> Aluminum Cans</span></li>
+                </ul>
+                <br>
+                <h3><i class="fas fa-clock"></i> Drop-off Schedule</h3>
+                <p>Monday to Saturday, 9 AM to 5 PM.</p>
+                <br>
+                <h3><i class="fas fa-headset"></i> Support</h3>
+                <p><i class="fas fa-envelope"></i> help@ecosphere.com</p>
+            </div>
 
-<div class="admin-logo">
-<i class="fas fa-user-shield"></i>
-<span>Admin Panel</span>
-</div>
+            <div class="card">
+                <h2><i class="fas fa-warehouse"></i> Available Scrap</h2>
+                <ul id="scrapList">
+                    <li><span><i class="fas fa-recycle"></i> Plastic Waste - 10kg</span> <button class="delete-btn" onclick="deleteItem(this)">Delete</button></li>
+                    <li><span><i class="fas fa-newspaper"></i> Newspapers - 5kg</span> <button class="delete-btn" onclick="deleteItem(this)">Delete</button></li>
+                    <li><span><i class="fas fa-industry"></i> Metal Scrap - 8kg</span> <button class="delete-btn" onclick="deleteItem(this)">Delete</button></li>
+                </ul>
+                <br>
+                <button onclick="openModal()">
+                    <i class="fas fa-plus-circle"></i> Add New Scrap
+                </button>
+            </div>
 
-<a href="./admin.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-<a href="./a_users.html"><i class="fas fa-users"></i> Users</a>
-<a href="./a_recyciier.html" class="active"><i class="fas fa-recycle"></i> Recycler</a>
-<a href="./a_products.html"><i class="fas fa-box"></i> Products</a>
-<a href="./a_users.html"><i class="fas fa-shopping-cart"></i> Orders</a>
-<a href="./index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
-</aside>
+            <div class="card">
+                <h2><i class="fas fa-chart-line"></i> Recycler Insights</h2>
+                <p>Total Weight: <strong id="total">23.00 kg</strong></p>
+                <p>Total Listings: <strong id="count">3</strong></p>
+            </div>
+        </main>
+    </div>
 
-<!-- MAIN -->
-<div class="main-content">
+    <!-- MODAL -->
+    <div id="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <h3>Add Scrap Entry</h3>
+            <br>
+            <label>Material Name</label>
+            <input type="text" id="material" placeholder="e.g. Cardboard Box">
+            <label>Weight (kg)</label>
+            <input type="number" id="qty" placeholder="0.00" step="0.1">
+            <button onclick="addScrap()" style="width: 100%;">Add to Inventory</button>
+        </div>
+    </div>
 
-<h1 class="page-title">
-<i class="fas fa-recycle"></i> Recycler Management
-</h1>
+    <footer class="footer">
+        <p>© 2026 EcoSphere | Empowering Sustainable Living</p>
+    </footer>
 
-<!-- MATERIALS -->
-<div class="card">
-<h2><i class="fas fa-recycle"></i> Accepting Materials</h2>
+    <script>
+        function openModal() {
+            document.getElementById("modal").style.display = "block";
+            document.getElementById("material").focus();
+        }
 
-<ul>
-<li><span><i class="fas fa-bottle-water"></i> Plastic Bottles</span></li>
-<li><span><i class="fas fa-wine-bottle"></i> Glass Containers</span></li>
-<li><span><i class="fas fa-beer"></i> Aluminum Cans</span></li>
-</ul>
+        function closeModal() {
+            document.getElementById("modal").style.display = "none";
+        }
 
-<h3><i class="fas fa-map-marker-alt"></i> Drop-off</h3>
-<p>Monday to Saturday, 9 AM to 5 PM. Bring items to the main gate.</p>
+        function addScrap() {
+            const material = document.getElementById("material").value;
+            const qty = document.getElementById("qty").value;
 
-<h3><i class="fas fa-address-book"></i> Contact</h3>
-<p><i class="fas fa-envelope"></i> info@ecosphere.com</p>
-<p><i class="fas fa-phone"></i> +91 9876543210</p>
-</div>
+            if (material && qty && qty > 0) {
+                const li = document.createElement("li");
+                const formattedQty = parseFloat(qty).toFixed(2);
+                
+                li.innerHTML = `<span><i class="fas fa-recycle"></i> ${material} - ${formattedQty}kg</span>
+                                <button class="delete-btn" onclick="deleteItem(this)">Delete</button>`;
 
-<!-- SCRAP LIST -->
-<div class="card">
-<h2><i class="fas fa-box-open"></i> Available Scrap</h2>
+                document.getElementById("scrapList").appendChild(li);
 
-<ul id="scrapList">
-<li><span><i class="fas fa-recycle"></i> Plastic Waste - 10kg</span> <button class="delete-btn" onclick="deleteItem(this)">Delete</button></li>
-<li><span><i class="fas fa-newspaper"></i> Newspapers - 5kg</span> <button class="delete-btn" onclick="deleteItem(this)">Delete</button></li>
-<li><span><i class="fas fa-industry"></i> Metal Scrap - 8kg</span> <button class="delete-btn" onclick="deleteItem(this)">Delete</button></li>
-</ul>
+                updateAnalytics(parseFloat(qty), 1);
 
-<button onclick="openModal()">
-<i class="fas fa-plus-circle"></i> Add Scrap
-</button>
-</div>
+                closeModal();
+                document.getElementById("material").value = "";
+                document.getElementById("qty").value = "";
+            } else {
+                alert("Please enter a valid material and quantity.");
+            }
+        }
 
-<!-- ANALYTICS -->
-<div class="card">
-<h2><i class="fas fa-chart-pie"></i> Recycler Insights</h2>
-<p>Total Scrap: <strong id="total">23 kg</strong></p>
-<p>Listings: <strong id="count">3</strong></p>
-</div>
+        function deleteItem(btn) {
+            const li = btn.parentElement;
+            const text = li.querySelector('span').innerText;
+            // Extract the number before 'kg'
+            const weightMatch = text.match(/(\d+(\.\d+)?)/);
+            const weight = weightMatch ? parseFloat(weightMatch[0]) : 0;
 
-</div>
-</div>
+            li.remove();
+            updateAnalytics(-weight, -1);
+        }
 
-<!-- MODAL -->
-<div id="modal">
-<div class="modal-content">
-<button class="close-btn" onclick="closeModal()">X</button>
+        function updateAnalytics(weightDiff, countDiff) {
+            const countElem = document.getElementById("count");
+            const totalElem = document.getElementById("total");
 
-<h3>Add Scrap</h3>
+            const newCount = parseInt(countElem.innerText) + countDiff;
+            const newTotal = parseFloat(totalElem.innerText) + weightDiff;
 
-<label>Material</label><br>
-<input type="text" id="material"><br><br>
+            countElem.innerText = newCount;
+            // Ensures weight is always displayed to 2 decimal places
+            totalElem.innerText = Math.max(0, newTotal).toFixed(2) + " kg";
+        }
 
-<label>Quantity</label><br>
-<input type="number" id="qty"><br><br>
-
-<button onclick="addScrap()">Submit</button>
-</div>
-</div>
-
-<!-- FOOTER -->
-<footer class="footer">
-<p>© 2026 EcoSphere | Recycler Dashboard</p>
-</footer>
-
-<script>
-
-function openModal(){
-document.getElementById("modal").style.display="block";
-}
-
-function closeModal(){
-document.getElementById("modal").style.display="none";
-}
-
-function addScrap(){
-let material=document.getElementById("material").value;
-let qty=document.getElementById("qty").value;
-
-if(material && qty){
-
-let li=document.createElement("li");
-li.innerHTML = `<span><i class="fas fa-recycle"></i> ${material} - ${qty}kg</span>
-<button class="delete-btn" onclick="deleteItem(this)">Delete</button>`;
-
-document.getElementById("scrapList").appendChild(li);
-
-document.getElementById("count").innerText++;
-document.getElementById("total").innerText =
-(parseInt(document.getElementById("total").innerText)+parseInt(qty))+" kg";
-
-alert("Scrap Added Successfully!");
-closeModal();
-
-}else{
-alert("Fill all fields");
-}
-}
-
-function deleteItem(btn){
-let li = btn.parentElement;
-let qty = li.innerText.match(/(\d+)/)[0];
-
-li.remove();
-
-document.getElementById("count").innerText--;
-document.getElementById("total").innerText =
-(parseInt(document.getElementById("total").innerText)-parseInt(qty))+" kg";
-}
-
-window.onclick=function(e){
-if(e.target == document.getElementById("modal")){
-closeModal();
-}
-}
-
-</script>
-
+        window.onclick = function(e) {
+            if (e.target == document.getElementById("modal")) {
+                closeModal();
+            }
+        }
+    </script>
 </body>
 </html>
-```

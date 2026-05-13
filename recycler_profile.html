@@ -1,411 +1,420 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Recycler Profile</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recycler Profile | EcoSphere</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f7fa;
+            overflow-x: hidden;
+        }
 
-<style>
+        /* HEADER */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 70px;
+            background: #12ba11;
+            z-index: 1100;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 0 1.5rem;
+        }
 
-body{
-    font-family:Segoe UI, sans-serif;
-    background:#f4f7fa;
-}
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-/* HEADER */
-.header{
-position:fixed;
-top:0;
-width:100%;
-height:80px;
-background:#12ba11;
-z-index:1000;
-}
+        .logo h1 {
+            color: white;
+            font-size: 1.5rem;
+        }
 
-.nav{
-display:flex;
-justify-content:space-between;
-align-items:center;
-max-width:1200px;
-margin:auto;
-padding:1rem 2rem;
-}
+        .logo i {
+            color: #ffd700;
+        }
 
-.logo h1{
-color:white;
-}
+        .menu-btn {
+            display: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
 
-.logo i{
-color:#ffd700;
-}
+        .profile-mini i {
+            color: #fff;
+            font-size: 25px;
+        }
 
-.profile-mini{
-font-size:25px;
-}
+        /* DASHBOARD LAYOUT */
+        .dashboard {
+            margin-top: 70px;
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
 
-.profile-mini i{
-color:#fff;
-}
+        /* SIDEBAR */
+        .sidebar {
+            width: 240px;
+            background: #1e293b;
+            color: white;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
 
-/* DASHBOARD */
-.dashboard{
-margin-top:80px;
-display:flex;
-}
+        .admin-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffd700;
+            border-bottom: 1px solid #334155;
+        }
 
-/* SIDEBAR */
-.sidebar{
-width:220px;
-background:#1e293b;
-color:white;
-padding-top:20px;
-min-height:calc(100vh - 80px);
-}
+        .sidebar a {
+            display: block;
+            padding: 15px 20px;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: 0.3s;
+        }
 
-.admin-logo{
-display:flex;
-align-items:center;
-gap:10px;
-padding:20px;
-font-size:20px;
-font-weight:bold;
-color:#ffd700;
-border-bottom:1px solid #334155;
-}
+        .sidebar a i {
+            margin-right: 12px;
+            width: 20px;
+        }
 
-.sidebar a{
-display:block;
-padding:12px 20px;
-color:white;
-text-decoration:none;
-transition:0.3s;
-}
+        .sidebar a:hover, .sidebar a.active {
+            background: #334155;
+            color: white;
+            border-left: 4px solid #12ba11;
+        }
 
-.sidebar a i{margin-right:10px;}
+        /* MAIN CONTENT */
+        .main {
+            flex: 1;
+            padding: 20px;
+            max-width: 100%;
+        }
 
-.sidebar a:hover,
-.sidebar a.active{
-background:#334155;
-padding-left:25px;
-}
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
 
-/* MAIN */
-.main{
-flex:1;
-padding:20px;
-/* margin-left: -190px; */
-}
+        .profile-icon {
+            color: #12ba11;
+            background: #e8f5ec;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 24px;
+        }
 
-/* PROFILE HEADER */
-.profile-header{
-display:flex;
-align-items:center;
-gap:12px;
-/* background:white; */
-padding:15px;
-border-radius:8px;
-margin-bottom:20px;
-/* margin-left: 190px; */
-/* box-shadow:0 2px 8px rgba(0,0,0,0.1); */
-}
+        /* PROFILE CARD */
+        .profile-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            max-width: 900px;
+            margin: auto;
+        }
 
-.profile-icon{
-color:#12ba11;
-background:#e8f5ec;
-padding:10px;
-border-radius:10px;
-font-size:26px;
-}
+        .profile-card h3 {
+            margin-bottom: 20px;
+            color: #1e293b;
+            border-left: 4px solid #12ba11;
+            padding-left: 10px;
+        }
 
-/* PROFILE CARD */
-.profile-card{
-background:white;
-padding:30px;
-border-radius:10px;
-box-shadow:0 2px 8px rgba(0,0,0,0.1);
-max-width:800px;
-margin:auto;
-}
+        .profile-row {
+            display: flex;
+            margin-bottom: 18px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
 
-.profile-card h3{
-margin-bottom:15px;
-}
+        .profile-row label {
+            flex: 0 0 180px;
+            font-weight: 600;
+            color: #475569;
+        }
 
-.profile-row{
-display:flex;
-margin-bottom:15px;
-align-items:center;
-}
+        .profile-row input {
+            flex: 1;
+            min-width: 250px;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            outline-color: #12ba11;
+        }
 
-.profile-row label{
-flex:1;
-font-weight:600;
-}
+        .profile-row input:disabled {
+            background-color: #f8fafc;
+            border-color: #f1f5f9;
+        }
 
-.profile-row input{
-flex:2;
-padding:8px;
-border:1px solid #ccc;
-border-radius:5px;
-}
+        .profile-row label i {
+            margin-right: 8px;
+            color: #12ba11;
+        }
 
-.profile-row label i{
-margin-right:8px;
-color:#12ba11;
-}
+        /* BANK SECTION */
+        .bank-section {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 2px solid #f1f5f9;
+        }
 
-/* BANK SECTION */
-.bank-section{
-margin-top:30px;
-padding-top:20px;
-border-top:2px solid #eee;
-}
+        /* BUTTONS */
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
 
-/* BUTTONS */
-.button-group{
-display:flex;
-justify-content:center;
-gap:15px;
-margin-top:20px;
-}
+        button {
+            padding: 12px 25px;
+            background: #12ba11;
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
 
-button{
-padding:10px 20px;
-background:#12ba11;
-border:none;
-color:white;
-cursor:pointer;
-border-radius:5px;
-}
+        button:hover {
+            background: #0e8b0e;
+            transform: translateY(-1px);
+        }
 
-button:hover{
-background:#0e8b0e;
-}
+        #cancelBtn { background: #64748b; }
+        #saveBtn { background: #0ea5e9; }
 
-/* FOOTER */
-.footer-bottom{
-text-align:center;
-padding:15px;
-background:#1a1a1a;
-color:#aaa;
-/* margin-top:20px; */
-}
+        /* FOOTER */
+        .footer-bottom {
+            text-align: center;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #94a3b8;
+        }
 
-/* RESPONSIVE */
-@media(max-width:768px){
-.sidebar{width:180px;}
-}
+        /* RESPONSIVE BREAKPOINTS */
+        @media (max-width: 992px) {
+            .profile-row label { flex: 0 0 100%; margin-bottom: 8px; }
+            .profile-row input { width: 100%; }
+        }
 
-@media(max-width:600px){
-.sidebar{display:none;}
-}
+        @media (max-width: 768px) {
+            .menu-btn { display: block; }
+            
+            .sidebar {
+                position: fixed;
+                left: -240px;
+                height: 100%;
+                z-index: 1050;
+            }
 
-</style>
+            .sidebar.active {
+                left: 0;
+            }
+
+            /* Overlay when sidebar is open */
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                z-index: 1040;
+            }
+
+            .sidebar-overlay.active {
+                display: block;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-left">
+                <i class="fas fa-bars menu-btn" onclick="toggleSidebar()"></i>
+                <div class="logo">
+                    <h1><i class="fas fa-leaf"></i> EcoSphere</h1>
+                </div>
+            </div>
+            <div class="profile-mini">
+                <a href="recycler_profile.html"><i class="fas fa-user-circle"></i></a>
+            </div>
+        </nav>
+    </header>
 
-<!-- HEADER -->
-<header class="header">
-<nav class="nav">
-<div class="logo">
-<h1><i class="fas fa-leaf"></i> EcoSphere</h1>
-</div>
+    <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-<div class="profile-mini">
-<a href="./recycler_profile.html"><i class="fas fa-user-circle"></i></a>
-</div>
-</nav>
-</header>
+    <div class="dashboard">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="admin-logo">
+                <i class="fas fa-recycle"></i>
+                <span>Recycler Panel</span>
+            </div>
+            <a href="recycler.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="recycler_orders.html"><i class="fas fa-shopping-cart"></i> Orders</a>
+            <a href="recycler_payments.html"><i class="fas fa-wallet"></i> Payments</a>
+            <!-- <a href="recycler_profile.html" class="active"><i class="fas fa-user"></i> Profile</a> -->
+            <a href="index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </aside>
 
-<!-- DASHBOARD -->
-<div class="dashboard">
+        <!-- MAIN CONTENT -->
+        <div class="main">
+            <div class="profile-header">
+                <i class="fas fa-id-card profile-icon"></i>
+                <h2>Recycler Profile</h2>
+            </div>
 
-<!-- SIDEBAR -->
-<aside class="sidebar">
+            <div class="profile-card">
+                <h3><i class="fas fa-user"></i> Personal Information</h3>
 
-<div class="admin-logo">
-<i class="fas fa-recycle"></i>
-<span>Recycler Panel</span>
-</div>
-<a href="./recycler.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-<a href="./recycler_orders.html"><i class="fas fa-shopping-cart"></i> Orders</a>
-<a href="./recycler_payments.html"><i class="fas fa-wallet"></i>  Payments</a>
-<a href="./index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
-<!-- <a href="#"><i class="fas fa-cog"></i> Settings</a> -->
+                <div class="profile-row">
+                    <label><i class="fas fa-user"></i> Full Name:</label>
+                    <input type="text" id="name" value="Shiva Kumar" disabled>
+                </div>
 
-</aside>
-<!-- MAIN -->
-<div class="main">
+                <div class="profile-row">
+                    <label><i class="fas fa-envelope"></i> Email:</label>
+                    <input type="email" id="email" value="shivakumar@ecosphere.com" disabled>
+                </div>
 
-<!--  PROFILE HEADER WITH LOGO -->
-<div class="profile-header">
-<i class="fas fa-id-card profile-icon"></i>
-<h2>Recycler Profile</h2>
-</div>
+                <div class="profile-row">
+                    <label><i class="fas fa-phone"></i> Phone:</label>
+                    <input type="text" id="phone" value="98765 43210" disabled>
+                </div>
 
-<!-- PROFILE CARD -->
-<div class="profile-card">
+                <div class="profile-row">
+                    <label><i class="fas fa-map-marker-alt"></i> Address:</label>
+                    <input type="text" id="address" value="Hyderabad, Telangana" disabled>
+                </div>
 
-<h3><i class="fas fa-user"></i> Personal Information</h3>
+                <div class="profile-row">
+                    <label><i class="fas fa-building"></i> Company:</label>
+                    <input type="text" id="company" value="Ecosphere Pvt Ltd" disabled>
+                </div>
 
-<div class="profile-row">
-<label><i class="fas fa-user"></i> Full Name:</label>
-<input type="text" id="name" value="shiva Kumar" disabled>
-</div>
+                <!-- BANK SECTION -->
+                <div class="bank-section">
+                    <h3><i class="fas fa-university"></i> Bank Details</h3>
 
-<div class="profile-row">
-<label><i class="fas fa-envelope"></i> Email:</label>
-<input type="email" id="email" value="shivakumar@ecosphere.com" disabled>
-</div>
+                    <div class="profile-row">
+                        <label><i class="fas fa-user-circle"></i> Account Holder:</label>
+                        <input type="text" id="accName" value="Shiva Kumar" disabled>
+                    </div>
 
-<div class="profile-row">
-<label><i class="fas fa-phone"></i> Phone:</label>
-<input type="text" id="phone" value="98765 43210" disabled>
-</div>
+                    <div class="profile-row">
+                        <label><i class="fas fa-credit-card"></i> Account Number:</label>
+                        <input type="text" id="accNumber" value="1234567890123" disabled>
+                    </div>
 
-<div class="profile-row">
-<label><i class="fas fa-map-marker-alt"></i> Address:</label>
-<input type="text" id="address" value="Hyderabad, Telangana" disabled>
-</div>
+                    <div class="profile-row">
+                        <label><i class="fas fa-code"></i> IFSC:</label>
+                        <input type="text" id="ifsc" value="SBIN0001234" disabled>
+                    </div>
 
-<div class="profile-row">
-<label><i class="fas fa-building"></i> Company:</label>
-<input type="text" id="company" value="Ecosphere Pvt Ltd" disabled>
-</div>
+                    <div class="profile-row">
+                        <label><i class="fas fa-university"></i> Bank Name:</label>
+                        <input type="text" id="bank" value="State Bank of India (SBI)" disabled>
+                    </div>
+                </div>
 
-<div class="profile-row">
-<label><i class="fas fa-briefcase"></i> Experience:</label>
-<!-- <input type="text" id="experience" value="5 years" disabled> -->
-</div>
+                <div class="button-group">
+                    <button id="editBtn" onclick="toggleEditMode()"><i class="fas fa-edit"></i> Edit Profile</button>
+                    <button id="saveBtn" onclick="saveData()" style="display:none;"><i class="fas fa-save"></i> Save</button>
+                    <button id="cancelBtn" onclick="cancelEdit()" style="display:none;"><i class="fas fa-times"></i> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<!-- BANK -->
-<div class="bank-section">
-<h3><i class="fas fa-university"></i> Bank Details</h3>
+    <footer class="footer-bottom">
+        <p>© 2026 EcoSphere. All rights reserved.</p>
+    </footer>
 
-<div class="profile-row">
-<label><i class="fas fa-user-circle"></i> Account Holder:</label>
-<input type="text" id="accName" value="Shiva Kumar" disabled>
-</div>
+    <script>
+        // Sidebar Toggle for Mobile
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
 
-<div class="profile-row">
-<label><i class="fas fa-credit-card"></i> Account Number:</label>
-<input type="text" id="accNumber" value="1234567890123" disabled>
-</div>
+        let isEditMode = false;
+        const fields = ["name", "email", "phone", "address", "company", "accName", "accNumber", "ifsc", "bank"];
 
-<div class="profile-row">
-<label><i class="fas fa-code"></i> IFSC:</label>
-<input type="text" id="ifsc" value="SBIN0001234" disabled>
-</div>
+        function toggleEditMode() {
+            isEditMode = true;
+            fields.forEach(id => document.getElementById(id).disabled = false);
+            document.getElementById("editBtn").style.display = "none";
+            document.getElementById("saveBtn").style.display = "inline-block";
+            document.getElementById("cancelBtn").style.display = "inline-block";
+        }
 
-<div class="profile-row">
-<label><i class="fas fa-university"></i> Bank Name:</label>
-<input type="text" id="bank" value="State Bank of India (SBI)" disabled>
-</div>
-</div>
+        function cancelEdit() {
+            isEditMode = false;
+            fields.forEach(id => document.getElementById(id).disabled = true);
+            loadData();
+            document.getElementById("editBtn").style.display = "inline-block";
+            document.getElementById("saveBtn").style.display = "none";
+            document.getElementById("cancelBtn").style.display = "none";
+        }
 
-<div class="button-group">
-<button id="editBtn" onclick="toggleEditMode()"><i class="fas fa-edit"></i> Edit Profile</button>
-<button id="saveBtn" onclick="saveData()" style="display:none;"><i class="fas fa-save"></i> Save Changes</button>
-<button id="cancelBtn" onclick="cancelEdit()" style="display:none;"><i class="fas fa-times"></i> Cancel</button>
-</div>
+        function saveData() {
+            const data = {};
+            fields.forEach(id => data[id] = document.getElementById(id).value);
+            localStorage.setItem("userProfile", JSON.stringify(data));
+            alert("Profile Updated Successfully!");
+            cancelEdit();
+        }
 
-</div>
-</div>
-</div>
+        function loadData() {
+            const savedData = localStorage.getItem("userProfile");
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                fields.forEach(id => {
+                    if (data[id]) document.getElementById(id).value = data[id];
+                });
+            }
+        }
 
-<!-- FOOTER -->
-<footer class="footer-bottom">
-<p>© 2026 EcoSphere. All rights reserved.</p>
-</footer>
-
-<script>
-
-let isEditMode = false;
-const fields = ["name", "email", "phone", "address", "company", "experience", "accName", "accNumber", "ifsc", "bank"];
-
-function toggleEditMode(){
-isEditMode = true;
-fields.forEach(fieldId => {
-document.getElementById(fieldId).disabled = false;
-});
-
-document.getElementById("editBtn").style.display = "none";
-document.getElementById("saveBtn").style.display = "inline-block";
-document.getElementById("cancelBtn").style.display = "inline-block";
-}
-
-function cancelEdit(){
-isEditMode = false;
-fields.forEach(fieldId => {
-document.getElementById(fieldId).disabled = true;
-});
-
-loadData();
-
-document.getElementById("editBtn").style.display = "inline-block";
-document.getElementById("saveBtn").style.display = "none";
-document.getElementById("cancelBtn").style.display = "none";
-}
-
-function saveData(){
-const data={
-name:document.getElementById("name").value,
-email:document.getElementById("email").value,
-phone:document.getElementById("phone").value,
-address:document.getElementById("address").value,
-company:document.getElementById("company").value,
-experience:document.getElementById("experience").value,
-accName:document.getElementById("accName").value,
-accNumber:document.getElementById("accNumber").value,
-ifsc:document.getElementById("ifsc").value,
-bank:document.getElementById("bank").value
-};
-
-localStorage.setItem("userProfile",JSON.stringify(data));
-alert("Profile Updated Successfully!");
-
-isEditMode = false;
-fields.forEach(fieldId => {
-document.getElementById(fieldId).disabled = true;
-});
-
-document.getElementById("editBtn").style.display = "inline-block";
-document.getElementById("saveBtn").style.display = "none";
-document.getElementById("cancelBtn").style.display = "none";
-}
-
-function loadData(){
-const savedData = localStorage.getItem("userProfile");
-if(savedData){
-const data = JSON.parse(savedData);
-document.getElementById("name").value = data.name || "Shiva kumar";
-document.getElementById("email").value = data.email || "Shivakumar@ecosphere.com";
-document.getElementById("phone").value = data.phone || "98765 43210";
-document.getElementById("address").value = data.address || "Hyderabad, Telangana";
-document.getElementById("company").value = data.company || "Ecosphere pvt lmt";
-// document.getElementById("experience").value = data.experience || "5 years";
-document.getElementById("accName").value = data.accName || "Shiva Kumar";
-document.getElementById("accNumber").value = data.accNumber || "1234567890123";
-document.getElementById("ifsc").value = data.ifsc || "SBIN0001234";
-document.getElementById("bank").value = data.bank || "State Bank of India (SBI)";
-}
-}
-
-window.onload=function(){
-loadData();
-}
-
-</script>
-
+        window.onload = loadData;
+    </script>
 </body>
 </html>

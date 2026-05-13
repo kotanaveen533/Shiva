@@ -1,432 +1,468 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Dashboard</title>
-<link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcoSphere – Seller Dashboard</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> -->
-<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"> -->
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
 <style>
-   *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Segoe UI',sans-serif;
-}
 
-body{
-background:#f4f6f8;
-display:flex;
-flex-direction:column;
-min-height:100vh;
-}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* HEADER */
-.header{
-position:fixed;
-top:0;
-width:100%;
-height:80px;
-background:#12ba11;
-z-index:1000;
-}
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f0f2f0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
 
-.nav{
-display:flex;
-justify-content:space-between;
-align-items:center;
-max-width:1200px;
-margin:auto;
-padding:1rem 2rem;
-}
+  /* ── HEADER ── */
+  .header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 60px;
+    background: #18a118;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    gap: 14px;
+  }
 
-.logo h1{
-color:white;
-}
+  .hamburger {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .hamburger:hover { background: rgba(255,255,255,0.15); }
 
-.logo i{
-color:#ffd700;
-}
+  .logo {
+    flex: 1;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.3px;
+  }
+  .logo i { color: #ffd700; margin-right: 6px; }
 
-.profile-mini{
-font-size:25px;
-}
+  .profile-link {
+    color: #fff;
+    font-size: 22px;
+    opacity: 0.9;
+    transition: opacity 0.2s;
+  }
+  .profile-link:hover { opacity: 1; }
 
-.profile-mini i{
-color:#fff;
-}
+  /* ── OVERLAY ── */
+  .overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 998;
+  }
+  .overlay.show { display: block; }
 
-/* DASHBOARD */
-.dashboard{
-margin-top:80px;
-display:flex;
-flex:1;
-}
+  /* ── SIDEBAR ── */
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 210px;
+    height: 100vh;
+    background: #1b2636;
+    z-index: 999;
+    transition: transform 0.28s ease;
+    display: flex;
+    flex-direction: column;
+    padding-top: 60px;
+  }
 
-/* SIDEBAR */
-.sidebar{
-width:220px;
-background:#1e293b;
-color:white;
-padding-top:20px;
-height: 100vh;
-}
+  .sidebar-close {
+    position: absolute;
+    top: 14px; right: 14px;
+    background: none; border: none;
+    color: rgba(255,255,255,0.5);
+    font-size: 18px; cursor: pointer;
+    display: none;
+  }
 
-.admin-logo{
-display:flex;
-align-items:center;
-gap:10px;
-padding:20px;
-font-size:20px;
-font-weight:bold;
-color:#ffd700;
-border-bottom:1px solid #334155;
-}
+  .sidebar-brand {
+    padding: 18px 20px 16px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    margin-bottom: 8px;
+  }
 
-.sidebar a{
-display:block;
-padding:12px 20px;
-color:white;
-text-decoration:none;
-cursor:pointer;
-transition:0.3s;
-}
+  .sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 20px;
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+    border-radius: 0;
+    transition: color 0.2s, background 0.2s, padding-left 0.2s;
+  }
+  .sidebar a i { width: 16px; text-align: center; font-size: 0.85rem; }
+  .sidebar a:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.07);
+    padding-left: 26px;
+  }
+  .sidebar a.active {
+    color: #4ade80;
+    background: rgba(74,222,128,0.1);
+  }
+  .sidebar a.active i { color: #4ade80; }
 
-.sidebar a i{
-margin-right:10px;
-}
+  .sidebar-spacer { flex: 1; }
 
-.sidebar a:hover, .sidebar a.active{
-background:#334155;
-padding-left:25px;
-}
+  .sidebar a.logout {
+    color: rgba(248,113,113,0.8);
+    margin-bottom: 12px;
+  }
+  .sidebar a.logout:hover {
+    color: #f87171;
+    background: rgba(248,113,113,0.08);
+    padding-left: 26px;
+  }
 
-/* MAIN */
-.main{
-flex:1;
-padding:20px;
-}
+  /* ── LAYOUT ── */
+  .dashboard {
+    margin-top: 60px;
+    display: flex;
+    flex: 1;
+  }
 
-/* CARDS */
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:15px;
-}
+  .main {
+    margin-left: 210px;
+    padding: 28px 24px;
+    width: 100%;
+    min-height: calc(100vh - 60px);
+  }
 
-.card{
-background:white;
-padding:20px;
-border-radius:12px;
-text-align:center;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
-transition:.3s;
-}
+  /* ── PAGE TITLE ── */
+  .page-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 24px;
+  }
+  .page-title span { color: #18a118; }
 
-.card:hover{
-transform:translateY(-5px);
-}
+  /* ── STAT CARDS ── */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
 
-.card h1{
-color:#16a34a;
-}
-.main #canvas{
-max-width:50%;
-font-size: -200px;
-}
-.graph-box{
-  background:white;
-  padding:15px;
-  margin-top:15px;
-  border-radius:10px;
-  max-width:350px;
-}
-.main{
-flex:1;
-padding:30px;
-}
+  .card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  }
 
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-}
+  .card-icon {
+    width: 48px; height: 48px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.15rem;
+    flex-shrink: 0;
+  }
+  .icon-green  { background: #dcfce7; color: #16a34a; }
+  .icon-yellow { background: #fef9c3; color: #ca8a04; }
+  .icon-blue   { background: #dbeafe; color: #2563eb; }
 
-/* .card:hover{
-transform:translateY(-5px);
-} */
+  .card-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 4px;
+  }
+  .card-value {
+    font-size: 1.85rem;
+    font-weight: 700;
+    color: #1e293b;
+    line-height: 1;
+  }
 
+  /* ── BOTTOM GRID ── */
+  .bottom-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 20px;
+  }
 
-/* ================= TABLE ================= */
-.table-container{
-margin-top:-460px;
-margin-left: 600px;
-background:white;
-height: 62vh;
-border-radius:15px;
-overflow:hidden;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
-}
+  /* ── PANELS ── */
+  .panel {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
 
-table{
-width:100%;
-border-collapse:collapse;
-}
+  .panel-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .panel-title i { color: #18a118; font-size: 0.85rem; }
 
-th,td{
-padding:15px;
-border-bottom:1px solid #eee;
-text-align:left;
-}
+  /* ── TABLE ── */
+  .table-wrap { overflow-x: auto; }
 
-/* TABLE */
-table{
-width:100%;
-border-collapse:collapse;
-background:white;
-border-radius:10px;
-overflow:hidden;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
-}
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 380px;
+  }
 
-th,td{
-padding:12px 0;
-text-align:center;
-}
+  thead th {
+    padding: 9px 12px;
+    text-align: left;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    background: #f8fafc;
+  }
+  thead th:first-child { border-radius: 6px 0 0 6px; }
+  thead th:last-child  { border-radius: 0 6px 6px 0; }
 
-th{
-background:#1a1a1a;
-color:white;
-}
+  tbody td {
+    padding: 11px 12px;
+    font-size: 0.855rem;
+    color: #334155;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: #f8fafc; }
 
-tr:hover{
-background:#f3f4f6;
-}
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+  }
+  .badge-active   { background: #dcfce7; color: #15803d; }
+  .badge-inactive { background: #fee2e2; color: #b91c1c; }
 
-/* BUTTON */
-button{
-background:#22c55e;
-color:white;
-border:none;
-padding:8px 14px;
-border-radius:6px;
-cursor:pointer;
-transition:.3s;
-}
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 14px;
+    background: #161c22;
+    color: rgba(255,255,255,0.4);
+    font-size: 0.78rem;
+    margin-top: auto;
+  }
 
-button:hover{
-background:#15803d;
-}
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .bottom-grid { grid-template-columns: 1fr; }
+  }
 
-/* FORM */
-input{
-width:100%;
-padding:10px;
-margin:8px 0;
-border:1px solid #ccc;
-border-radius:6px;
-}
+  @media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); padding-top: 0; }
+    .sidebar.open { transform: translateX(0); box-shadow: 8px 0 30px rgba(0,0,0,0.2); }
+    .sidebar-close { display: block; }
+    .main { margin-left: 0; padding: 18px 14px; }
+    .cards { grid-template-columns: 1fr; gap: 12px; }
+  }
 
-/* BOX */
-.box{
-background:white;
-padding:20px;
-border-radius:12px;
-max-width:500px;
-margin:auto;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
-}
-/* FOOTER */
-.footer-bottom{
-text-align:center;
-padding:20px;
-margin-top: -60px;
-background:#1a1a1a;
-color:#aaa;
-}
+  @media (max-width: 480px) {
+    .card-value { font-size: 1.5rem; }
+    .page-title { font-size: 1.1rem; }
+  }
+
 </style>
+</head>
 <body>
 
 <!-- HEADER -->
 <header class="header">
-<nav class="nav">
-<div class="logo">
-<h1><i class="fas fa-leaf"></i> EcoSphere</h1>
-</div>
-
-<div class="profile-mini">
-<a href="./seller_profile.html"><i class="fas fa-user-circle"></i></a>
-</div>
-</nav>
+  <button class="hamburger" onclick="toggleSidebar()" aria-label="Open menu">
+    <i class="fas fa-bars"></i>
+  </button>
+  <div class="logo"><i class="fas fa-leaf"></i> EcoSphere</div>
+  <a href="./seller_profile.html" class="profile-link" title="My Profile">
+    <i class="fas fa-user-circle"></i>
+  </a>
 </header>
 
-<!-- DASHBOARD -->
-<div class="dashboard">
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
 <!-- SIDEBAR -->
-<aside class="sidebar">
-
-<div class="admin-logo">
-<i class="fas fa-store"></i>
-<span>Seller Panel</span>
-</div>
-<a href="./seller.html" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-<a href="./selle_orders.html"><i class="fas fa-shopping-cart"></i> Orders</a>
-<a href="./selle_items.html"><i class="fas fa-box-open"></i> List Items</a>
-<a href="./index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
-<!-- <a href="#"><i class="fas fa-cog"></i> Settings</a> -->
-
+<aside class="sidebar" id="sidebar">
+  <button class="sidebar-close" onclick="closeSidebar()">
+    <i class="fas fa-times"></i>
+  </button>
+  <div class="sidebar-brand">Seller Panel</div>
+  <a href="./seller.html" class="active"><i class="fas fa-home"></i> Dashboard</a>
+  <a href="./selle_orders.html"><i class="fas fa-shopping-bag"></i> Orders</a>
+  <a href="./selle_items.html"><i class="fas fa-box"></i> List Items</a>
+  <!-- <div class="sidebar-spacer"></div> -->
+  <a href="./index.html" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
 </aside>
 
-<div class="main">
+<!-- MAIN -->
+<div class="dashboard">
+  <div class="main">
 
-<div class="cards">
-<div class="card"><h3>Total Orders</h3><h1 id="total"></h1></div>
-<div class="card"><h3>Pending</h3><h1 id="pending"></h1></div>
-<div class="card"><h3>Completed</h3><h1 id="completed"></h1></div>
+    <h2 class="page-title">Good morning, <span>Shiva 👋</span></h2>
+
+    <!-- STAT CARDS -->
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon icon-green"><i class="fas fa-shopping-bag"></i></div>
+        <div>
+          <div class="card-label">Total Orders</div>
+          <div class="card-value" id="total">0</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon icon-yellow"><i class="fas fa-clock"></i></div>
+        <div>
+          <div class="card-label">Pending</div>
+          <div class="card-value" id="pending">0</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon icon-blue"><i class="fas fa-check-circle"></i></div>
+        <div>
+          <div class="card-label">Completed</div>
+          <div class="card-value" id="completed">0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHART + TABLE -->
+    <div class="bottom-grid">
+
+      <div class="panel">
+        <div class="panel-title"><i class="fas fa-chart-pie"></i> Order Status</div>
+        <canvas id="chart" height="260"></canvas>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title"><i class="fas fa-users"></i> Recent Buyers</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Email</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Ravi Sharma</td><td>ravi@email.com</td><td><span class="badge badge-active">Active</span></td></tr>
+              <tr><td>Anil Kumar</td><td>anil@email.com</td><td><span class="badge badge-active">Active</span></td></tr>
+              <tr><td>Sunita Patel</td><td>sunita@email.com</td><td><span class="badge badge-inactive">Inactive</span></td></tr>
+              <tr><td>Rajesh Gupta</td><td>rajesh@email.com</td><td><span class="badge badge-active">Active</span></td></tr>
+              <tr><td>Meera Joshi</td><td>meera@email.com</td><td><span class="badge badge-active">Active</span></td></tr>
+              <tr><td>Vikram Rao</td><td>vikram@email.com</td><td><span class="badge badge-inactive">Inactive</span></td></tr>
+              <tr><td>Priya Singh</td><td>priya@email.com</td><td><span class="badge badge-active">Active</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>
 
-<!-- <canvas id="chart"></canvas> -->
- <div class="graph-box">
-<canvas id="chart"></canvas>
-</div>
-
-</div>
-</div>
-<!-- ============= -->
- <main class="main">
-<div class="cards">
-<!-- TABLE -->
-<div class="table-container">
-
-<table>
-<thead>
-<tr>
-<th>USER</th>
-<th>EMAIL</th>
-<th>STATUS</th>
-</tr>
-</thead>
-<td>Ravi Sharma</td>
-<td>ravi@email.com</td>
-<td>Active</td>
-<tbody>
-   <td>Anil Kumar</td> 
-   <td>anil@email.com</td> 
-   <td>Active</td> 
-</tbody>
-<td>Sunita Patel</td>
-<td>sunita@email.com</td>
-<td>Inactive</td>
-<tbody>
-   <td>Rajesh Gupta</td> 
-   <td>rajesh@email.com</td> 
-   <td>Active</td> 
-</tbody>
-<td>Meera Joshi</td>
-<td>meera@email.com</td>
-<td>Active</td>
-<tbody>
-   <td>Vikram Rao</td> 
-   <td>vikram@email.com</td> 
-   <td>Inactive</td> 
-</tbody>
- <td>Priya Singh</td> 
-   <td>priya@email.com</td> 
-   <td>Active</td> 
-
-</table>
-
-</div>
-
-</main>
-</div>
-
-
-<footer class="footer-bottom">
-<p>© 2026 EcoSphere. All rights reserved.</p>
-</footer>
+<footer>© 2026 EcoSphere. All rights reserved.</footer>
 
 <script>
-    let orders=[
-{id:1,product:"Plastic",buyer:"Shiva",status:"Pending"},
-{id:2,product:"Metal",buyer:"Ravi",status:"Completed"}
-];
+  const orders = [
+    { status: "Pending"   },
+    { status: "Completed" },
+    { status: "Completed" },
+    { status: "Pending"   },
+  ];
 
-// let orders=[
-// {id:101,product:"Plastic Scrap",buyer:"Shiva",phone:"9876543210",location:"Hyderabad",address:"Kukatpally",status:"Pending"},
-// {id:102,product:"Paper Scrap",buyer:"Madiha",phone:"9999988888",location:"Warangal",address:"Hanamkonda",status:"Completed"},
-// {id:103,product:"Metal Scrap",buyer:"Naveen",phone:"8888877777",location:"Karimnagar",address:"Ramnagar",status:"Pending"},
-// {id:104,product:"E-Waste",buyer:"Jayram",phone:"7777766666",location:"Nizamabad",address:"Vinayaknagar",status:"Completed"}
-// ];
+  const pending   = orders.filter(o => o.status === "Pending").length;
+  const completed = orders.filter(o => o.status === "Completed").length;
 
-let items=[
-{name:"Plastic Scrap",seller:"You",qty:"20kg"},
-{name:"Iron Scrap",seller:"You",qty:"50kg"}
-];
+  document.getElementById("total").innerText     = orders.length;
+  document.getElementById("pending").innerText   = pending;
+  document.getElementById("completed").innerText = completed;
 
-function loadDashboard(){
-if(document.getElementById("total")){
-total.innerText=orders.length;
-pending.innerText=orders.filter(o=>o.status=="Pending").length;
-completed.innerText=orders.filter(o=>o.status=="Completed").length;
+  new Chart(document.getElementById("chart"), {
+    type: "doughnut",
+    data: {
+      labels: ["Pending", "Completed"],
+      datasets: [{
+        data: [pending, completed],
+        backgroundColor: ["#fbbf24", "#22c55e"],
+        borderWidth: 0,
+        hoverOffset: 5
+      }]
+    },
+    options: {
+      plugins: {
+        legend: {
+          position: "bottom",
+          labels: {
+            padding: 20,
+            font: { size: 13, family: "'Segoe UI'" },
+            color: "#475569"
+          }
+        }
+      },
+      cutout: "68%"
+    }
+  });
 
-new Chart(document.getElementById("chart"),{
-type:"doughnut",
-data:{
-labels:["Pending","Completed"],
-datasets:[{
-data:[
-orders.filter(o=>o.status=="Pending").length,
-orders.filter(o=>o.status=="Completed").length
-]
-}]
-}
-});
-}
-}
+  function toggleSidebar() {
+    document.getElementById("sidebar").classList.toggle("open");
+    document.getElementById("overlay").classList.toggle("show");
+  }
 
-function loadOrders(){
-let el=document.getElementById("orders");
-if(!el) return;
+  function closeSidebar() {
+    document.getElementById("sidebar").classList.remove("open");
+    document.getElementById("overlay").classList.remove("show");
+  }
 
-el.innerHTML=orders.map(o=>`
-<tr>
-<td>${o.id}</td>
-<td>${o.product}</td>
-<td>${o.buyer}</td>
-<td>${o.status}</td>
-</tr>`).join("");
-}
-
-function loadItems(){
-let el=document.getElementById("items");
-if(!el) return;
-
-el.innerHTML=items.map(i=>`
-<tr>
-<td>${i.name}</td>
-<td>${i.seller}</td>
-<td>${i.qty}</td>
-</tr>`).join("");
-}
-
-function addItem(){
-let name=prompt("Enter item name");
-let qty=prompt("Enter quantity");
-
-items.push({name,seller:"You",qty});
-loadItems();
-}
-
-loadDashboard();
-loadOrders();
-loadItems();
-
-
+  document.querySelectorAll(".sidebar a").forEach(function(link) {
+    link.addEventListener("click", closeSidebar);
+  });
 </script>
 </body>
 </html>

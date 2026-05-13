@@ -26,14 +26,14 @@ flex-direction:column;
 min-height:100vh;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
 .header{
 position:fixed;
 top:0;
 width:100%;
 height:80px;
 background:#12ba11;
-z-index:1000;
+z-index:1100;
 }
 
 .nav{
@@ -45,12 +45,26 @@ margin:auto;
 padding:1rem 2rem;
 }
 
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
 .logo h1{
 color:white;
 }
 
 .logo i{
 color:#ffd700;
+}
+
+/* HAMBURGER STYLES */
+.hamburger {
+    display: none; /* Hidden on desktop, shown via JS/Media queries if needed */
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
 }
 
 .profile-mini{
@@ -74,6 +88,7 @@ width:220px;
 background:#1e293b;
 color:white;
 padding-top:20px;
+transition: all 0.3s ease;
 }
 
 .admin-logo{
@@ -173,11 +188,12 @@ padding:6px;
 border-radius:6px;
 border:1px solid #ccc;
 font-weight:bold;
+background: white;
 }
 
-.status-select.pending{ color:orange; }
-.status-select.delivered{ color:green; }
-.status-select.cancelled{ color:red; }
+.status-select.pending{ color:orange; border-color: orange; }
+.status-select.delivered{ color:green; border-color: green; }
+.status-select.cancelled{ color:red; border-color: red; }
 
 /* BUTTON */
 .btn{
@@ -201,6 +217,13 @@ padding:2rem;
 text-align:center;
 }
 
+/* MOBILE RESPONSIVENESS HINT (Layout remains same, but shows hamburger) */
+@media (max-width: 768px) {
+    .hamburger { display: block; }
+    .sidebar { display: none; }
+    .sidebar.active { display: block; position: absolute; height: 100%; z-index: 1000; }
+}
+
 </style>
 </head>
 
@@ -209,12 +232,17 @@ text-align:center;
 <!-- HEADER -->
 <header class="header">
 <nav class="nav">
-<div class="logo">
-<h1><i class="fas fa-leaf"></i> EcoSphere</h1>
-</div>
+    <div class="logo-container">
+        <div class="hamburger" id="hamburger">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="logo">
+            <h1><i class="fas fa-leaf"></i> EcoSphere</h1>
+        </div>
+    </div>
 
 <div class="profile-mini">
-<a href="./admin_profile.html"><i class="fas fa-user-circle"></i></a>
+<a href="admin_profile.html"><i class="fas fa-user-circle"></i></a>
 </div>
 </nav>
 </header>
@@ -223,7 +251,7 @@ text-align:center;
 <div class="dashboard">
 
 <!-- SIDEBAR -->
-<aside class="sidebar">
+<aside class="sidebar" id="sidebar">
 
 <div class="admin-logo">
 <i class="fas fa-user-shield"></i>
@@ -235,7 +263,6 @@ text-align:center;
 <a href="./a_products.html"><i class="fas fa-box"></i> Products</a>
 <a href="./a_order.html" class="active"><i class="fas fa-shopping-cart"></i> Orders</a>
 <a href="./index.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
-<!-- <a href="#"><i class="fas fa-cog"></i> Settings</a> -->
 
 </aside>
 
@@ -275,20 +302,15 @@ text-align:center;
 <td>Plastic Bottles</td>
 <td>50 kg</td>
 <td>₹600</td>
-
 <td>
 <select class="status-select" onchange="changeStatus(this)">
-<option value="delivered">Delivered</option>
+<option value="delivered" selected>Delivered</option>
 <option value="pending">Pending</option>
 <option value="cancelled">Cancelled</option>
 </select>
 </td>
-
 <td>20 Jan 2026</td>
-
-<td>
-<button class="btn view" onclick="viewOrder(this)">View</button>
-</td>
+<td><button class="btn view" onclick="viewOrder(this)">View</button></td>
 </tr>
 
 <tr>
@@ -297,112 +319,32 @@ text-align:center;
 <td>Old Newspapers</td>
 <td>30 kg</td>
 <td>₹240</td>
-
 <td>
 <select class="status-select" onchange="changeStatus(this)">
-<option value="pending">Pending</option>
+<option value="pending" selected>Pending</option>
 <option value="delivered">Delivered</option>
 <option value="cancelled">Cancelled</option>
 </select>
 </td>
-
 <td>21 Jan 2026</td>
-
-<td>
-<button class="btn view" onclick="viewOrder(this)">View</button>
-</td>
+<td><button class="btn view" onclick="viewOrder(this)">View</button></td>
 </tr>
 
-
 <tr>
-<td>#ORD1021</td>
-<td>Priya Singh</td>
-<td>Plastic Bottles</td>
-<td>50 kg</td>
-<td>₹600</td>
-
-<td>
-<select class="status-select" onchange="changeStatus(this)">
-<option value="delivered">Delivered</option>
-<option value="pending">Pending</option>
-<option value="cancelled">Cancelled</option>
-</select>
-</td>
-
-<td>20 Jan 2026</td>
-
-<td>
-<button class="btn view" onclick="viewOrder(this)">View</button>
-</td>
-</tr>
-
-
-<tr>
-<td>#ORD1021</td>
-<td>Priya Singh</td>
-<td>Plastic Bottles</td>
-<td>50 kg</td>
-<td>₹600</td>
-
+<td>#ORD1023</td>
+<td>Amit Kumar</td>
+<td>Iron Scrap</td>
+<td>100 kg</td>
+<td>₹4500</td>
 <td>
 <select class="status-select" onchange="changeStatus(this)">
 <option value="pending">Pending</option>
 <option value="delivered">Delivered</option>
-<option value="cancelled">Cancelled</option>
+<option value="cancelled" selected>Cancelled</option>
 </select>
 </td>
-
-<td>20 Jan 2026</td>
-
-<td>
-<button class="btn view" onclick="viewOrder(this)">View</button>
-</td>
-</tr>
-
-
-<tr>
-<td>#ORD1021</td>
-<td>Priya Singh</td>
-<td>Plastic Bottles</td>
-<td>50 kg</td>
-<td>₹600</td>
-
-<td>
-<select class="status-select" onchange="changeStatus(this)">
-<option value="delivered">Delivered</option>
-<option value="pending">Pending</option>
-<option value="cancelled">Cancelled</option>
-</select>
-</td>
-
-<td>20 Jan 2026</td>
-
-<td>
-<button class="btn view" onclick="viewOrder(this)">View</button>
-</td>
-</tr>
-
-
-<tr>
-<td>#ORD1021</td>
-<td>Priya Singh</td>
-<td>Plastic Bottles</td>
-<td>50 kg</td>
-<td>₹600</td>
-
-<td>
-<select class="status-select" onchange="changeStatus(this)">
-<option value="pending">Pending</option>
-<option value="delivered">Delivered</option>
-<option value="cancelled">Cancelled</option>
-</select>
-</td>
-
-<td>20 Jan 2026</td>
-
-<td>
-<button class="btn view" onclick="viewOrder(this)">View</button>
-</td>
+<td>22 Jan 2026</td>
+<td><button class="btn view" onclick="viewOrder(this)">View</button></td>
 </tr>
 
 </tbody>
@@ -419,17 +361,26 @@ text-align:center;
 
 <script>
 
+/* HAMBURGER TOGGLE */
+document.getElementById("hamburger").addEventListener("click", function() {
+    document.getElementById("sidebar").classList.toggle("active");
+});
+
 /* VIEW ORDER */
 function viewOrder(btn){
 let row=btn.parentNode.parentNode;
 let data=row.children;
+let status = data[5].querySelector('select').value;
 
 alert(
+"--- ORDER DETAILS ---\n" +
 "Order ID: "+data[0].innerText+
 "\nBuyer: "+data[1].innerText+
 "\nProduct: "+data[2].innerText+
 "\nQuantity: "+data[3].innerText+
-"\nTotal: "+data[4].innerText
+"\nTotal: "+data[4].innerText+
+"\nStatus: "+status.toUpperCase()+
+"\nDate: "+data[6].innerText
 );
 }
 
@@ -444,12 +395,15 @@ row.style.display=text.includes(input) ? "" : "none";
 });
 }
 
-/* STATUS COLOR */
+/* STATUS COLOR LOGIC */
 function changeStatus(select){
+// Remove old classes
 select.classList.remove("pending","delivered","cancelled");
+// Add new class based on value
 select.classList.add(select.value);
 }
 
+// Initializing colors on page load
 document.querySelectorAll(".status-select").forEach(select=>{
 changeStatus(select);
 });
